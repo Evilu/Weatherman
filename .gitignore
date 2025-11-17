@@ -1,0 +1,99 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json.debug  # debug artifacts if any
+
+# Runtime / process files
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+
+# Build output
+dist/
+build/
+out/
+.tmp/
+temp/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+.env.*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# JetBrains / WebStorm
+.idea/
+*.iml
+.idea_modules/
+# If you choose to keep specific .idea files, exclude the rule above and whitelist needed files instead.
+# e.g.:
+# .idea/*
+# !.idea/runConfigurations
+# !.idea/vcs.xml
+
+# Editor directories and files
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+Icon?
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+~*.swp
+*.swp
+
+# Coverage and test result artifacts
+coverage/
+test-results/
+
+# Optional: lockfile caches for yarn v2 (if you track certain parts, adjust as needed)
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# Misc
+*.log.*
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Docker
+docker-compose.override.yml
+.env.docker
+
+# Local builds / IDE output
+dist/
+build/
+out/
+
+# Ignore generated docs
+docs/_build/
+docs/build/
+
