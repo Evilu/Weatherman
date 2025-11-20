@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  alerts    alert[]
+}
+
+model alert {
+  id          String         @id @default(uuid())
+  userId      String
+  user        user           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  location    Json // { city?: string, lat?: number, lon?: number }
+  parameter   String // temperature, windSpeed, humidity, etc.
+  operator    String // gt, lt, eq, gte, lte
+  threshold   Float
+  isActive    Boolean        @default(true)
+  lastChecked DateTime?
+  status      ALERTSTATUS    @default(NOT_TRIGGERED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  history     alertHistory[]
+
+  @@index([userId])
+  @@index([isActive, lastChecked])
+}
+
+model alertHistory {
+  id          String    @id @default(uuid())
+  alertId     String
+  alert       alert     @relation(fields: [alertId], references: [id], onDelete: Cascade)
+  status      String
+  weatherData Json
+  triggeredAt DateTime  @default(now())
+  resolvedAt  DateTime?
+
+  @@index([alertId, triggeredAt])
+}
+
+enum ALERTSTATUS {
+  NOT_TRIGGERED
+  TRIGGERED
+  ERROR
+}

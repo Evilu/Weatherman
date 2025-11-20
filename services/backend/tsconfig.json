@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -15,16 +16,10 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@libs/*": [
-        "../../libs/*"
-
-      ]
-    }
+    "noFallthroughCasesInSwitch": false
   },
   "include": [
     "src/**/*.ts",
-    "../../libs/protos/src/generated/*"
+    "node_modules/@prisma/client/index.d.ts"
   ]
-} 
+}
