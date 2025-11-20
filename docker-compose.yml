@@ -1,0 +1,63 @@
+version: '3.8'
+
+
+
+services:
+  redis:
+    image: redis:6.2-alpine
+    command: redis-server --maxmemory 200mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - app-network
+
+  db:
+    image: postgres:16.1
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: weatherman
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d weatherman" ]
+      interval: 3s
+      timeout: 30s
+      retries: 5
+    networks:
+      - app-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+      - ./servers.json:/pgadmin4/servers.json:ro
+    ports:
+      - "5050:80"
+    networks:
+      - app-network
+volumes:
+  db_data: { }
+
+networks:
+  app-network:
+    driver: bridge

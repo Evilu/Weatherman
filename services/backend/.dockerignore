@@ -1,0 +1,44 @@
+node_modules
+dist
+.env
+.vscode
+.git
+npm-debug.log
+Dockerfile
+# Development stage
+FROM node:20-alpine as dev
+
+WORKDIR /app
+
+# Install build deps
+RUN apk add --no-cache git python3 make g++
+
+COPY package.json package-lock.json* ./
+COPY prisma ./prisma
+
+RUN npm ci --legacy-peer-deps
+
+COPY . .
+
+# Generate Prisma client
+RUN npm run prisma:generate || true
+
+EXPOSE 3535
+
+CMD ["npm", "run", "dev"]
+
+# Production stage
+FROM node:20-alpine as prod
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev
+
+COPY . .
+RUN npm run prisma:generate
+RUN npm run build
+
+ENV NODE_ENV=production
+EXPOSE 3535
+CMD ["node", "dist/main.js"]
+
