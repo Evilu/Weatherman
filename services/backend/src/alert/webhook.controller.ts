@@ -11,7 +11,9 @@ import { ConfigService } from '@nestjs/config';
 import { AlertService } from './alert.service';
 import { verifyTomorrowSignature } from './tomorrow-signature.util';
 import { TomorrowIoWebhook } from '../common/interfaces/weather.interface';
+import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
 
+@ApiTags('webhooks')
 @Controller('webhooks/tomorrow-io')
 export class WebhookController {
   private readonly logger = new Logger(WebhookController.name);
@@ -25,6 +27,8 @@ export class WebhookController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Handle Tomorrow.io webhook events' })
+  @ApiHeader({ name: 'x-tomorrow-signature', required: false, description: 'Signature header for verifying webhook' })
   async handleWebhook(
     @Body() payload: TomorrowIoWebhook,
     @Headers('x-tomorrow-signature') signature?: string,
@@ -115,4 +119,3 @@ export class WebhookController {
     await this.handleWeatherUpdate(payload);
   }
 }
-

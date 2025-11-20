@@ -16,8 +16,11 @@ import { AlertService } from './alert.service';
 import { CreateAlertDto } from '../common/dto/create-alert.dto';
 import { UpdateAlertDto } from '../common/dto/update-alert.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard('jwt'))
+@ApiTags('alerts')
+@ApiBearerAuth('jwt')
 @Controller('alerts')
 export class AlertController {
   private readonly logger = new Logger(AlertController.name);
@@ -25,6 +28,8 @@ export class AlertController {
   constructor(private readonly alertService: AlertService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new alert' })
+  @ApiResponse({ status: 201, description: 'The alert has been created.' })
   @UsePipes(new ValidationPipe({ transform: true }))
   async createAlert(@Body() createAlertDto: CreateAlertDto) {
     this.logger.log(`Creating alert: ${JSON.stringify(createAlertDto)}`);
@@ -32,18 +37,21 @@ export class AlertController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get alerts for a user' })
   async getUserAlerts(@Query('userId') userId: string) {
     this.logger.log(`Getting alerts for user: ${userId}`);
     return this.alertService.getUserAlerts(userId);
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get an alert by id' })
   async getAlert(@Param('id') id: string) {
     this.logger.log(`Getting alert: ${id}`);
     return this.alertService.getAlert(id);
   }
 
   @Put(':id')
+  @ApiOperation({ summary: 'Update an alert' })
   @UsePipes(new ValidationPipe({ transform: true }))
   async updateAlert(
     @Param('id') id: string,
@@ -54,6 +62,7 @@ export class AlertController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete an alert' })
   async deleteAlert(@Param('id') id: string) {
     this.logger.log(`Deleting alert: ${id}`);
     await this.alertService.deleteAlert(id);
@@ -61,12 +70,14 @@ export class AlertController {
   }
 
   @Get(':id/status')
+  @ApiOperation({ summary: 'Evaluate and return alert status' })
   async getAlertStatus(@Param('id') id: string) {
     this.logger.log(`Evaluating alert: ${id}`);
     return this.alertService.evaluateAlert(id);
   }
 
   @Get(':id/forecast-analysis')
+  @ApiOperation({ summary: 'Analyze forecast for an alert' })
   async getForecastAnalysis(@Param('id') id: string) {
     this.logger.log(`Analyzing forecast for alert: ${id}`);
     return this.alertService.analyzeForecast(id);
