@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 100% 98%;
+    --foreground: 220 90% 15%;
+    --card: 220 50% 97%;
+    --card-foreground: 220 90% 15%;
+    --popover: 220 50% 97%;
+    --popover-foreground: 220 90% 15%;
+    --primary: 210 100% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 92%;
+    --secondary-foreground: 220 90% 15%;
+    --muted: 210 40% 94%;
+    --muted-foreground: 220 50% 45%;
+    --accent: 210 40% 92%;
+    --accent-foreground: 220 90% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 40% 85%;
+    --input: 210 40% 90%;
+    --ring: 210 100% 60%;
+    --radius: 0.75rem;
+
+    /* Weather-themed custom properties */
+    --weather-blue: 210 100% 55%;
+    --weather-light-blue: 200 100% 85%;
+    --weather-cloud: 210 20% 90%;
+    --weather-sun: 45 100% 60%;
+    --weather-rain: 210 80% 50%;
+  }
+
+  .dark {
+    --background: 220 30% 8%;
+    --foreground: 210 40% 95%;
+    --card: 220 25% 12%;
+    --card-foreground: 210 40% 95%;
+    --popover: 220 25% 12%;
+    --popover-foreground: 210 40% 95%;
+    --primary: 210 100% 60%;
+    --primary-foreground: 220 30% 8%;
+    --secondary: 220 20% 20%;
+    --secondary-foreground: 210 40% 95%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 210 20% 65%;
+    --accent: 220 20% 20%;
+    --accent-foreground: 210 40% 95%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 20% 25%;
+    --input: 220 20% 22%;
+    --ring: 210 100% 65%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background: linear-gradient(135deg,
+      hsl(var(--weather-light-blue)) 0%,
+      hsl(var(--weather-blue)) 50%,
+      hsl(200 80% 60%) 100%);
+    background-attachment: fixed;
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Weather background animations */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: drift 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+  }
+
+  /* Floating cloud animations */
+  body::after {
+    content: '☁️ ⛅ ☁️';
+    position: fixed;
+    top: 10%;
+    left: -10%;
+    font-size: 2rem;
+    opacity: 0.3;
+    animation: floatClouds 25s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes floatClouds {
+    0% { transform: translateX(-10vw); }
+    100% { transform: translateX(110vw); }
+  }
+}
+
+@layer components {
+  /* Enhanced card styling */
+  .weather-card {
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(16px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  /* Button enhancements */
+  .weather-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg,
+      hsl(var(--primary)) 0%,
+      hsl(210 100% 45%) 100%);
+    box-shadow:
+      0 4px 16px rgba(59, 130, 246, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .weather-button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 24px rgba(59, 130, 246, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .weather-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent);
+    transition: left 0.6s;
+  }
+
+  .weather-button:hover::before {
+    left: 100%;
+  }
+
+  /* Input field styling */
+  .weather-input {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgb(31 41 55);
+  }
+
+  .weather-input::placeholder {
+    color: rgb(107 114 128);
+  }
+
+  .weather-input:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+    outline: none;
+    box-shadow:
+      0 0 0 2px rgba(255, 255, 255, 0.3),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  /* Weather icon animations */
+  .weather-icon {
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .weather-icon:hover {
+    animation: spin 1s ease-in-out;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  /* Alert status indicators with weather themes */
+  .alert-triggered {
+    background: linear-gradient(135deg,
+      rgba(239, 68, 68, 0.2) 0%,
+      rgba(220, 38, 38, 0.1) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    backdrop-filter: blur(16px);
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .alert-normal {
+    background: linear-gradient(135deg,
+      rgba(34, 197, 94, 0.2) 0%,
+      rgba(22, 163, 74, 0.1) 100%);
+    border: 1px solid rgba(34, 197, 94, 0.4);
+    backdrop-filter: blur(16px);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); }
+  }
+
+  /* Header with glass effect */
+  .weather-header {
+    background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 100%);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Navigation tabs with weather feel */
+  .weather-nav {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .weather-tab {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .weather-tab.active {
+    color: hsl(var(--primary));
+  }
+
+  .weather-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+      hsl(var(--primary)) 0%,
+      hsl(var(--weather-sun)) 100%);
+    animation: slide-in 0.3s ease-out;
+  }
+
+  @keyframes slide-in {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  /* Loading animations */
+  .weather-loading {
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+
+  /* Responsive weather background patterns */
+  @media (max-width: 768px) {
+    body::before {
+      animation-duration: 15s;
+    }
+
+    body::after {
+      font-size: 1.5rem;
+      animation-duration: 20s;
+    }
+  }
+}
