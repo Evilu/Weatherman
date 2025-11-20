@@ -97,3 +97,5 @@ out/
 docs/_build/
 docs/build/
 docs/Weather_Alert_Homework_TomorrowIO.docx_(1).pdf
+/pgadmin-data/
+/redis/
