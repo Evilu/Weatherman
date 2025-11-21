@@ -374,10 +374,10 @@ export default function AlertsList() {
                         variant="outline"
                         size="icon"
                         className={cn(
-                          "h-8 w-8 border transition-all duration-200",
+                          "h-9 w-9 border-2 transition-all duration-200 transform hover:scale-110 active:scale-95",
                           alert.isActive 
-                            ? "bg-blue-950/30 border-blue-900/50 hover:bg-blue-900/40 text-blue-400 hover:text-blue-300" 
-                            : "bg-slate-800/30 border-slate-700/50 hover:bg-slate-700/50 text-slate-400 hover:text-slate-300"
+                            ? "bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-400/50 hover:border-blue-400 text-blue-400 hover:text-blue-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40" 
+                            : "bg-gradient-to-br from-slate-700/30 to-slate-800/30 border-slate-600/50 hover:border-slate-500 text-slate-400 hover:text-slate-300 shadow-lg shadow-slate-900/50"
                         )}
                         onClick={() =>
                           toggleAlertMutation.mutate({
@@ -388,7 +388,7 @@ export default function AlertsList() {
                         disabled={toggleAlertMutation.isPending}
                       >
                         {alert.isActive ? (
-                          <BellOff className="h-4 w-4" />
+                          <BellOff className="h-4 w-4 drop-shadow-glow" />
                         ) : (
                           <Bell className="h-4 w-4" />
                         )}
@@ -396,11 +396,11 @@ export default function AlertsList() {
                       <Button
                         variant="outline"
                         size="icon"
-                        className="h-8 w-8 bg-red-950/30 border-red-900/50 hover:bg-red-900/40 text-red-400 hover:text-red-300 transition-all duration-200"
+                        className="h-9 w-9 bg-gradient-to-br from-red-500/20 to-orange-500/20 border-2 border-red-400/50 hover:border-red-400 text-red-400 hover:text-red-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40 transition-all duration-200 transform hover:scale-110 active:scale-95"
                         onClick={() => deleteAlertMutation.mutate(alert.id)}
                         disabled={deleteAlertMutation.isPending}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4 drop-shadow-glow" />
                       </Button>
                     </div>
                   </div>
