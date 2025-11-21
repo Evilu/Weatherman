@@ -4,55 +4,74 @@
 
 @layer base {
   :root {
-    --background: 220 100% 98%;
-    --foreground: 220 90% 15%;
-    --card: 220 50% 97%;
-    --card-foreground: 220 90% 15%;
-    --popover: 220 50% 97%;
-    --popover-foreground: 220 90% 15%;
-    --primary: 210 100% 55%;
+    /* Core atmospheric sky palette */
+    --background: 200 100% 96%;
+    --foreground: 215 25% 12%;
+    --card: 210 45% 98%;
+    --card-foreground: 215 25% 12%;
+    --popover: 210 45% 98%;
+    --popover-foreground: 215 25% 12%;
+
+    /* Vibrant azure theme - clear sky energy */
+    --primary: 199 89% 48%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 92%;
-    --secondary-foreground: 220 90% 15%;
-    --muted: 210 40% 94%;
-    --muted-foreground: 220 50% 45%;
-    --accent: 210 40% 92%;
-    --accent-foreground: 220 90% 15%;
+    --secondary: 204 94% 85%;
+    --secondary-foreground: 215 25% 12%;
+    --muted: 210 40% 92%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 199 89% 48%;
+    --accent-foreground: 0 0% 100%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 210 40% 85%;
-    --input: 210 40% 90%;
-    --ring: 210 100% 60%;
-    --radius: 0.75rem;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 199 89% 48%;
+    --radius: 0.875rem;
 
-    /* Weather-themed custom properties */
-    --weather-blue: 210 100% 55%;
-    --weather-light-blue: 200 100% 85%;
-    --weather-cloud: 210 20% 90%;
-    --weather-sun: 45 100% 60%;
-    --weather-rain: 210 80% 50%;
+    /* Advanced weather color system */
+    --sky-dawn: 35 100% 74%;
+    --sky-day: 199 89% 48%;
+    --sky-dusk: 271 73% 62%;
+    --sky-night: 229 47% 17%;
+
+    --cloud-light: 210 40% 98%;
+    --cloud-medium: 214 20% 85%;
+    --cloud-dark: 217 19% 38%;
+
+    --storm-purple: 271 73% 35%;
+    --storm-blue: 230 85% 24%;
+
+    --sun-bright: 45 100% 51%;
+    --sun-glow: 38 100% 70%;
+
+    --rain-light: 199 89% 65%;
+    --rain-heavy: 206 100% 31%;
+
+    --frost: 180 100% 90%;
+    --aurora: 177 100% 47%;
   }
 
   .dark {
-    --background: 220 30% 8%;
-    --foreground: 210 40% 95%;
-    --card: 220 25% 12%;
-    --card-foreground: 210 40% 95%;
-    --popover: 220 25% 12%;
-    --popover-foreground: 210 40% 95%;
-    --primary: 210 100% 60%;
-    --primary-foreground: 220 30% 8%;
-    --secondary: 220 20% 20%;
-    --secondary-foreground: 210 40% 95%;
-    --muted: 220 20% 18%;
-    --muted-foreground: 210 20% 65%;
-    --accent: 220 20% 20%;
-    --accent-foreground: 210 40% 95%;
+    --background: 229 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 229 40% 10%;
+    --card-foreground: 210 40% 98%;
+    --popover: 229 40% 10%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 199 89% 58%;
+    --primary-foreground: 229 47% 7%;
+    --secondary: 229 30% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 229 30% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 199 89% 58%;
+    --accent-foreground: 229 47% 7%;
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 20% 25%;
-    --input: 220 20% 22%;
-    --ring: 210 100% 65%;
+    --border: 229 30% 18%;
+    --input: 229 30% 18%;
+    --ring: 199 89% 58%;
   }
 
   * {
@@ -60,91 +79,161 @@
   }
 
   body {
-    background: linear-gradient(135deg,
-      hsl(var(--weather-light-blue)) 0%,
-      hsl(var(--weather-blue)) 50%,
-      hsl(200 80% 60%) 100%);
+    font-family: var(--font-outfit, 'Outfit'), system-ui, -apple-system, sans-serif;
+    background:
+      linear-gradient(180deg,
+        hsl(var(--sky-day)) 0%,
+        hsl(204 94% 80%) 20%,
+        hsl(199 85% 85%) 40%,
+        hsl(191 77% 88%) 60%,
+        hsl(180 65% 90%) 80%,
+        hsl(174 55% 92%) 100%);
     background-attachment: fixed;
     color: hsl(var(--foreground));
-    font-feature-settings: "rlig" 1, "calt" 1;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    letter-spacing: -0.01em;
   }
 
-  /* Weather background animations */
+  /* Multi-layered atmospheric depth */
   body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.4) 0%, transparent 25%),
+      radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(125, 211, 252, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 30%);
+    animation: atmosphericDrift 30s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: overlay;
+  }
+
+  @keyframes atmosphericDrift {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 0.6;
+    }
+    25% {
+      transform: translate(5%, -5%) rotate(2deg) scale(1.05);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translate(-3%, 3%) rotate(-1deg) scale(0.98);
+      opacity: 0.7;
+    }
+    75% {
+      transform: translate(3%, -2%) rotate(1deg) scale(1.02);
+      opacity: 0.75;
+    }
+  }
+
+  /* Floating particle system */
+  body::after {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background:
-      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-    animation: drift 20s ease-in-out infinite;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+      radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+      radial-gradient(circle at 60% 60%, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+    background-size: 50px 50px, 80px 80px, 100px 100px, 120px 120px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    animation: floatParticles 60s linear infinite;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
+    opacity: 0.4;
   }
 
-  @keyframes drift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-  }
-
-  /* Floating cloud animations */
-  body::after {
-    content: '☁️ ⛅ ☁️';
-    position: fixed;
-    top: 10%;
-    left: -10%;
-    font-size: 2rem;
-    opacity: 0.3;
-    animation: floatClouds 25s linear infinite;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  @keyframes floatClouds {
-    0% { transform: translateX(-10vw); }
-    100% { transform: translateX(110vw); }
+  @keyframes floatParticles {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-100px) translateX(50px); }
   }
 }
 
 @layer components {
-  /* Enhanced card styling */
+  /* Ultra-premium glass morphism cards */
   .weather-card {
+    position: relative;
     background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.25) 0%,
       rgba(255, 255, 255, 0.1) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(16px);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(24px) saturate(180%);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      0 8px 32px rgba(31, 38, 135, 0.15),
+      0 2px 8px rgba(31, 38, 135, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Button enhancements */
+  .weather-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .weather-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 16px 48px rgba(31, 38, 135, 0.2),
+      0 4px 16px rgba(31, 38, 135, 0.15),
+      inset 0 2px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .weather-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Premium button with liquid shine effect */
   .weather-button {
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: linear-gradient(135deg,
-      hsl(var(--primary)) 0%,
-      hsl(210 100% 45%) 100%);
+      hsl(var(--sky-day)) 0%,
+      hsl(199 89% 40%) 100%);
     box-shadow:
-      0 4px 16px rgba(59, 130, 246, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      0 4px 16px hsla(var(--sky-day), 0.4),
+      0 1px 4px hsla(var(--sky-day), 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
   .weather-button:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 8px 24px rgba(59, 130, 246, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      0 8px 24px hsla(var(--sky-day), 0.5),
+      0 2px 8px hsla(var(--sky-day), 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .weather-button:active {
+    transform: translateY(0px);
   }
 
   .weather-button::before {
@@ -156,103 +245,154 @@
     height: 100%;
     background: linear-gradient(90deg,
       transparent,
-      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.4),
       transparent);
-    transition: left 0.6s;
+    transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .weather-button:hover::before {
     left: 100%;
   }
 
-  /* Input field styling */
+  /* Frosted glass input fields */
   .weather-input {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: rgb(31 41 55);
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px) saturate(150%);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    color: hsl(var(--foreground));
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+      0 2px 8px rgba(31, 38, 135, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
   .weather-input::placeholder {
-    color: rgb(107 114 128);
+    color: hsl(var(--muted-foreground));
+    opacity: 0.7;
   }
 
   .weather-input:focus {
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: hsl(var(--primary));
     outline: none;
     box-shadow:
-      0 0 0 2px rgba(255, 255, 255, 0.3),
-      0 4px 16px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.25);
+      0 0 0 3px hsla(var(--primary), 0.15),
+      0 4px 16px rgba(31, 38, 135, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
   }
 
-  /* Weather icon animations */
+  /* Advanced weather icon animations */
   .weather-icon {
-    animation: bob 2s ease-in-out infinite;
+    animation: floatBob 3s ease-in-out infinite;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   }
 
-  @keyframes bob {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+  @keyframes floatBob {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(2deg);
+    }
   }
 
   .weather-icon:hover {
-    animation: spin 1s ease-in-out;
+    animation: weatherSpin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
-  @keyframes spin {
+  @keyframes weatherSpin {
     0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1.15); }
     100% { transform: rotate(360deg) scale(1); }
   }
 
-  /* Alert status indicators with weather themes */
+  /* Dynamic alert states with atmospheric effects */
   .alert-triggered {
     background: linear-gradient(135deg,
-      rgba(239, 68, 68, 0.2) 0%,
-      rgba(220, 38, 38, 0.1) 100%);
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    backdrop-filter: blur(16px);
-    animation: pulse-glow 2s ease-in-out infinite;
+      rgba(239, 68, 68, 0.25) 0%,
+      rgba(220, 38, 38, 0.15) 100%);
+    border: 1.5px solid rgba(239, 68, 68, 0.5);
+    backdrop-filter: blur(24px) saturate(180%);
+    animation: stormPulse 2s ease-in-out infinite;
+    box-shadow:
+      0 8px 32px rgba(239, 68, 68, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   .alert-normal {
     background: linear-gradient(135deg,
-      rgba(34, 197, 94, 0.2) 0%,
-      rgba(22, 163, 74, 0.1) 100%);
-    border: 1px solid rgba(34, 197, 94, 0.4);
-    backdrop-filter: blur(16px);
+      rgba(34, 197, 94, 0.25) 0%,
+      rgba(22, 163, 74, 0.15) 100%);
+    border: 1.5px solid rgba(34, 197, 94, 0.5);
+    backdrop-filter: blur(24px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(34, 197, 94, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
-  @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
-    50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.5); }
+  @keyframes stormPulse {
+    0%, 100% {
+      box-shadow:
+        0 8px 32px rgba(239, 68, 68, 0.2),
+        0 0 20px rgba(239, 68, 68, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    50% {
+      box-shadow:
+        0 8px 32px rgba(239, 68, 68, 0.3),
+        0 0 40px rgba(239, 68, 68, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
   }
 
-  /* Header with glass effect */
+  /* Premium header with gradient border */
   .weather-header {
+    position: relative;
     background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 4px 24px rgba(31, 38, 135, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
-  /* Navigation tabs with weather feel */
+  .weather-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5px;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      hsl(var(--sky-day)) 20%,
+      hsl(var(--sun-bright)) 50%,
+      hsl(var(--sky-day)) 80%,
+      transparent 100%);
+    opacity: 0.6;
+  }
+
+  /* Enhanced navigation with smooth transitions */
   .weather-nav {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px) saturate(150%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .weather-tab {
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  .weather-tab.active {
-    color: hsl(var(--primary));
+  .weather-tab:hover {
+    transform: translateY(-1px);
   }
 
   .weather-tab.active::after {
@@ -261,38 +401,102 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg,
-      hsl(var(--primary)) 0%,
-      hsl(var(--weather-sun)) 100%);
-    animation: slide-in 0.3s ease-out;
+      hsl(var(--sky-day)) 0%,
+      hsl(var(--aurora)) 50%,
+      hsl(var(--sky-day)) 100%);
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 0 12px hsla(var(--sky-day), 0.5);
+    animation: tabGlow 2s ease-in-out infinite;
   }
 
-  @keyframes slide-in {
-    0% { width: 0%; }
-    100% { width: 100%; }
+  @keyframes tabGlow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
   }
 
-  /* Loading animations */
+  /* Sophisticated loading shimmer */
   .weather-loading {
-    animation: shimmer 1.5s ease-in-out infinite;
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.1) 100%);
+    background-size: 200% 100%;
+    animation: liquidShimmer 2s ease-in-out infinite;
   }
 
-  @keyframes shimmer {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
+  @keyframes liquidShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 
-  /* Responsive weather background patterns */
+  /* Numeric data styling with monospace font */
+  .weather-data {
+    font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), 'Courier New', monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  /* Staggered fade-in animations */
+  .stagger-fade-in {
+    animation: staggerFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+
+  @keyframes staggerFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .stagger-fade-in:nth-child(1) { animation-delay: 0.05s; }
+  .stagger-fade-in:nth-child(2) { animation-delay: 0.1s; }
+  .stagger-fade-in:nth-child(3) { animation-delay: 0.15s; }
+  .stagger-fade-in:nth-child(4) { animation-delay: 0.2s; }
+  .stagger-fade-in:nth-child(5) { animation-delay: 0.25s; }
+  .stagger-fade-in:nth-child(6) { animation-delay: 0.3s; }
+
+  /* Responsive adjustments */
   @media (max-width: 768px) {
     body::before {
-      animation-duration: 15s;
+      animation-duration: 20s;
     }
 
     body::after {
-      font-size: 1.5rem;
-      animation-duration: 20s;
+      opacity: 0.2;
+      animation-duration: 40s;
+    }
+
+    .weather-card:hover {
+      transform: translateY(-2px) scale(1.005);
+    }
+  }
+
+  /* High contrast for accessibility */
+  @media (prefers-contrast: more) {
+    .weather-card {
+      border-width: 2px;
+      border-color: hsl(var(--foreground));
+    }
+
+    .weather-input {
+      border-width: 2px;
+    }
+  }
+
+  /* Reduced motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }

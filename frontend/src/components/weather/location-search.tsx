@@ -53,39 +53,53 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
   }
 
   return (
-    <Card>
+    <Card className="weather-card border-0 min-h-[400px]">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MapPin className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-3 text-slate-800">
+          <MapPin className="h-6 w-6 text-sky-500" />
           Search Location
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-6">
         {/* City Search */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Search by City</label>
+        <div className="space-y-3 stagger-fade-in">
+          <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Search by City</label>
           <div className="flex gap-2">
             <Input
-              placeholder="Enter city name (e.g., San Francisco)"
+              placeholder="San Francisco, New York..."
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleCitySearch()}
+              onKeyDown={(e) => e.key === 'Enter' && handleCitySearch()}
               disabled={isLoading}
+              className="weather-input h-11 flex-1"
             />
             <Button
               onClick={handleCitySearch}
               disabled={!city.trim() || isLoading}
               size="icon"
+              className="weather-button h-11 w-11"
             >
-              <Search className="h-4 w-4" />
+              <Search className="h-5 w-5" />
             </Button>
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="relative stagger-fade-in" style={{ animationDelay: '0.05s' }}>
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-white/30"></div>
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-white/20 px-3 py-1 rounded-full text-slate-600 font-semibold backdrop-blur-sm">
+              or
+            </span>
+          </div>
+        </div>
+
         {/* Coordinates Search */}
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Search by Coordinates</label>
-          <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.1s' }}>
+          <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Search by Coordinates</label>
+          <div className="grid grid-cols-2 gap-3">
             <Input
               placeholder="Latitude"
               type="number"
@@ -93,6 +107,7 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               value={coordinates.lat}
               onChange={(e) => setCoordinates(prev => ({ ...prev, lat: e.target.value }))}
               disabled={isLoading}
+              className="weather-input h-11 weather-data"
             />
             <Input
               placeholder="Longitude"
@@ -101,16 +116,17 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               value={coordinates.lon}
               onChange={(e) => setCoordinates(prev => ({ ...prev, lon: e.target.value }))}
               disabled={isLoading}
+              className="weather-input h-11 weather-data"
             />
           </div>
           <Button
             onClick={handleCoordinateSearch}
             disabled={!coordinates.lat || !coordinates.lon || isLoading}
             variant="outline"
-            className="w-full"
+            className="w-full h-11 bg-white/40 backdrop-blur-sm border-white/50 hover:bg-white/60 font-semibold"
           >
             <Search className="h-4 w-4 mr-2" />
-            Search by Coordinates
+            Search Coordinates
           </Button>
         </div>
 
@@ -119,10 +135,11 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
           onClick={getCurrentLocation}
           disabled={isLoading}
           variant="secondary"
-          className="w-full"
+          className="w-full h-12 bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white/50 font-semibold stagger-fade-in"
+          style={{ animationDelay: '0.15s' }}
         >
-          <Navigation className="h-4 w-4 mr-2" />
-          Use Current Location
+          <Navigation className="h-5 w-5 mr-2" />
+          Use My Location
         </Button>
       </CardContent>
     </Card>

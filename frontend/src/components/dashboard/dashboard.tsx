@@ -43,24 +43,34 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       {/* Header */}
-      <header className="weather-header shadow-lg">
+      <header className="weather-header shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <Cloud className="h-8 w-8 text-blue-600 weather-icon" />
+              <div className="relative">
+                <Cloud className="h-9 w-9 text-sky-600 weather-icon" />
+                <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-amber-400 rounded-full animate-pulse" />
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-800">Weatherman</h1>
-                <p className="text-sm text-gray-600">Weather Alert System</p>
+                <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Weatherman</h1>
+                <p className="text-xs text-slate-600 font-medium">Real-Time Alert System</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
-                Welcome, {user?.name}
-              </span>
-              <Button variant="outline" size="sm" onClick={logout}>
+              <div className="hidden sm:block">
+                <span className="text-sm font-medium text-slate-700">
+                  {user?.name}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logout}
+                className="bg-white/40 backdrop-blur-sm border-white/50 hover:bg-white/60 font-semibold"
+              >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>
@@ -70,7 +80,7 @@ export default function Dashboard() {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="weather-nav">
+      <nav className="weather-nav sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {tabs.map((tab) => {
@@ -79,10 +89,10 @@ export default function Dashboard() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`weather-tab py-4 px-2 font-semibold text-sm transition-all duration-300 ${
+                  className={`weather-tab py-4 px-2 font-bold text-sm transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'active text-blue-600'
-                      : 'text-gray-600 hover:text-gray-800'
+                      ? 'active text-sky-600'
+                      : 'text-slate-600 hover:text-slate-800'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -115,11 +125,15 @@ export default function Dashboard() {
                     isLoading={isLoadingWeather}
                   />
                 ) : (
-                  <div className="h-full flex items-center justify-center weather-card p-12">
-                    <div className="text-center text-gray-600">
-                      <Search className="h-16 w-16 mx-auto mb-6 opacity-40 weather-icon" />
-                      <h3 className="text-xl font-semibold mb-2 text-gray-700">Search for Weather</h3>
-                      <p className="text-gray-600">Select a location to view current weather conditions</p>
+                  <div className="h-full flex items-center justify-center weather-card border-0 p-12 min-h-[400px]">
+                    <div className="text-center">
+                      <Search className="h-20 w-20 mx-auto mb-6 text-slate-400 weather-icon" />
+                      <h3 className="text-2xl font-bold mb-2 text-slate-700 tracking-tight">
+                        Search for Weather
+                      </h3>
+                      <p className="text-slate-600 font-medium">
+                        Select a location to view current weather conditions
+                      </p>
                     </div>
                   </div>
                 )}
@@ -127,8 +141,8 @@ export default function Dashboard() {
             </div>
 
             {weatherError && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-800">
+              <div className="bg-red-50/80 backdrop-blur-sm border-2 border-red-300 rounded-xl p-4">
+                <p className="text-red-800 font-semibold">
                   Error loading weather data: {weatherError.message}
                 </p>
               </div>

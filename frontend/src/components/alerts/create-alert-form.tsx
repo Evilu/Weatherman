@@ -42,8 +42,16 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
     threshold: '',
   })
 
+  interface AlertFormData {
+    name: string
+    location: { city: string; lat: string; lon: string }
+    parameter: string
+    operator: string
+    threshold: string
+  }
+
   const createAlertMutation = useMutation({
-    mutationFn: async (alertData: any) => {
+    mutationFn: async (alertData: AlertFormData) => {
       if (!user) throw new Error('User not authenticated')
 
       // Prepare location object
@@ -88,42 +96,47 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
   const selectedParameter = ALERT_PARAMETERS.find(p => p.value === formData.parameter)
 
   return (
-    <Card>
+    <Card className="weather-card border-0">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Plus className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-3 text-slate-800 text-2xl">
+          <Plus className="h-6 w-6 text-sky-500" />
           Create New Alert
         </CardTitle>
+        <p className="text-sm text-slate-600 font-medium mt-2">
+          Set up custom weather conditions to monitor for your location
+        </p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Alert Name */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Alert Name</label>
+          <div className="space-y-3 stagger-fade-in">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Alert Name</label>
             <Input
-              placeholder="e.g., High Temperature in San Francisco"
+              placeholder="e.g., High Temperature Alert"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               required
+              className="weather-input h-11"
             />
           </div>
 
           {/* Location */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
+          <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.05s' }}>
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-sky-500" />
               Location
             </label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <Input
-                placeholder="City (e.g., San Francisco)"
+                placeholder="City name"
                 value={formData.location.city}
                 onChange={(e) => setFormData(prev => ({
                   ...prev,
                   location: { ...prev.location, city: e.target.value, lat: '', lon: '' }
                 }))}
+                className="weather-input h-11"
               />
-              <div className="md:col-span-2 grid grid-cols-2 gap-2">
+              <div className="md:col-span-2 grid grid-cols-2 gap-3">
                 <Input
                   placeholder="Latitude"
                   type="number"
@@ -133,6 +146,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                     ...prev,
                     location: { ...prev.location, lat: e.target.value, city: '' }
                   }))}
+                  className="weather-input h-11 weather-data"
                 />
                 <Input
                   placeholder="Longitude"
@@ -143,19 +157,20 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                     ...prev,
                     location: { ...prev.location, lon: e.target.value, city: '' }
                   }))}
+                  className="weather-input h-11 weather-data"
                 />
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Provide either a city name OR coordinates (not both)
+            <p className="text-xs text-slate-600 font-medium px-1">
+              💡 Provide either a city name OR coordinates
             </p>
           </div>
 
           {/* Parameter */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Weather Parameter</label>
+          <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.1s' }}>
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Weather Parameter</label>
             <select
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="weather-input flex h-11 w-full rounded-xl px-4 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               value={formData.parameter}
               onChange={(e) => setFormData(prev => ({ ...prev, parameter: e.target.value }))}
               required
@@ -163,17 +178,17 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
               <option value="">Select parameter...</option>
               {ALERT_PARAMETERS.map((param) => (
                 <option key={param.value} value={param.value}>
-                  {param.label}
+                  {param.label} ({param.unit})
                 </option>
               ))}
             </select>
           </div>
 
           {/* Operator */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Condition</label>
+          <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.15s' }}>
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Condition</label>
             <select
-              className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="weather-input flex h-11 w-full rounded-xl px-4 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               value={formData.operator}
               onChange={(e) => setFormData(prev => ({ ...prev, operator: e.target.value }))}
               required
@@ -188,9 +203,11 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
           </div>
 
           {/* Threshold */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Threshold Value {selectedParameter && `(${selectedParameter.unit})`}
+          <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.2s' }}>
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">
+              Threshold Value {selectedParameter && (
+                <span className="text-sky-600">({selectedParameter.unit})</span>
+              )}
             </label>
             <Input
               placeholder="e.g., 25"
@@ -199,22 +216,53 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
               value={formData.threshold}
               onChange={(e) => setFormData(prev => ({ ...prev, threshold: e.target.value }))}
               required
+              className="weather-input h-11 weather-data text-lg"
             />
+            {selectedParameter && (
+              <div className="flex items-center gap-2 px-1">
+                {(() => {
+                  const Icon = selectedParameter.icon
+                  return <Icon className="h-4 w-4 text-sky-500" />
+                })()}
+                <p className="text-xs text-slate-600 font-medium">
+                  Alert will trigger when {selectedParameter.label.toLowerCase()} {
+                    formData.operator === 'gt' ? 'exceeds' :
+                    formData.operator === 'lt' ? 'drops below' :
+                    formData.operator === 'gte' ? 'reaches or exceeds' :
+                    formData.operator === 'lte' ? 'reaches or drops below' :
+                    'equals'
+                  } {formData.threshold || '___'} {selectedParameter.unit}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Submit */}
           <Button
             type="submit"
-            className="w-full"
+            className="w-full h-12 weather-button text-base stagger-fade-in"
             disabled={createAlertMutation.isPending}
+            style={{ animationDelay: '0.25s' }}
           >
-            {createAlertMutation.isPending ? 'Creating...' : 'Create Alert'}
+            {createAlertMutation.isPending ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Creating Alert...
+              </span>
+            ) : (
+              <>
+                <Plus className="h-5 w-5 mr-2" />
+                Create Alert
+              </>
+            )}
           </Button>
 
           {createAlertMutation.error && (
-            <p className="text-sm text-destructive">
-              Error: {createAlertMutation.error.message}
-            </p>
+            <div className="bg-red-50/80 backdrop-blur-sm border-2 border-red-300 rounded-xl p-4 animate-stagger-fade-in">
+              <p className="text-sm text-red-700 font-semibold">
+                Error: {createAlertMutation.error.message}
+              </p>
+            </div>
           )}
         </form>
       </CardContent>
