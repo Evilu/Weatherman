@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AlertService } from './alert.service';
+import { AlertQueueService } from './alert-queue.service';
 import { verifyTomorrowSignature } from './tomorrow-signature.util';
 import { TomorrowIoWebhook } from '../common/interfaces/weather.interface';
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
@@ -21,6 +22,7 @@ export class WebhookController {
 
   constructor(
     private readonly alertService: AlertService,
+    private readonly alertQueueService: AlertQueueService,
     private readonly configService: ConfigService,
   ) {
     this.webhookSecret = this.configService.get<string>('TOMORROW_IO_WEBHOOK_SECRET') || '';
@@ -99,12 +101,12 @@ export class WebhookController {
 
     this.logger.log(`Found ${matchingAlerts.length} alerts matching this location`);
 
-    // Evaluate each matching alert
+    // Queue evaluation for each matching alert
     for (const alert of matchingAlerts) {
       try {
-        await this.alertService.evaluateAlert(alert.id);
+        await this.alertQueueService.queueEvaluateAlert(alert.id);
       } catch (error) {
-        this.logger.error(`Failed to evaluate alert ${alert.id}: ${error.message}`);
+        this.logger.error(`Failed to queue alert ${alert.id}: ${error.message}`);
       }
     }
   }

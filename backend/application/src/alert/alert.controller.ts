@@ -13,6 +13,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AlertService } from './alert.service';
+import { AlertQueueService } from './alert-queue.service';
 import { CreateAlertDto } from '../common/dto/create-alert.dto';
 import { UpdateAlertDto } from '../common/dto/update-alert.dto';
 import { AuthGuard } from '@nestjs/passport';
@@ -25,7 +26,10 @@ import { ApiTags, ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagg
 export class AlertController {
   private readonly logger = new Logger(AlertController.name);
 
-  constructor(private readonly alertService: AlertService) {}
+  constructor(
+    private readonly alertService: AlertService,
+    private readonly alertQueueService: AlertQueueService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new alert' })
@@ -76,10 +80,32 @@ export class AlertController {
     return this.alertService.evaluateAlert(id);
   }
 
+  @Post(':id/evaluate')
+  @ApiOperation({ summary: 'Queue immediate evaluation of a specific alert' })
+  async queueAlertEvaluation(@Param('id') id: string) {
+    this.logger.log(`Queueing evaluation for alert: ${id}`);
+    await this.alertQueueService.queueEvaluateAlert(id);
+    return { success: true, message: 'Alert evaluation queued' };
+  }
+
   @Get(':id/forecast-analysis')
   @ApiOperation({ summary: 'Analyze forecast for an alert' })
   async getForecastAnalysis(@Param('id') id: string) {
     this.logger.log(`Analyzing forecast for alert: ${id}`);
     return this.alertService.analyzeForecast(id);
+  }
+
+  @Post('process')
+  @ApiOperation({ summary: 'Manually trigger alert processing for all active alerts' })
+  async processAlerts() {
+    this.logger.log('Manual alert processing triggered');
+    await this.alertQueueService.queueProcessAllAlerts();
+    return { success: true, message: 'Alert processing job queued' };
+  }
+
+  @Get('queue/stats')
+  @ApiOperation({ summary: 'Get alert processing queue statistics' })
+  async getQueueStats() {
+    return this.alertQueueService.getQueueStats();
   }
 }

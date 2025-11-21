@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nest start",
+    "build": "tsc",
     "prisma:generate": "prisma generate",
     "prepare-weatherman": "npx prisma migrate diff --from-empty --to-schema-datamodel ./data_sets/weatherman/PRISMA/schema.prisma --script > ./databases/deployments/weatherman/pgdata/01_init.sql",
     "postinstall": "prisma generate",
@@ -29,11 +30,11 @@
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/platform-socket.io": "^10.4.20",
-    "@nestjs/websockets": "^10.4.20",
+    "@nestjs/schedule": "^6.0.1",
     "@nestjs/swagger": "^7.0.0",
+    "@nestjs/websockets": "^10.4.20",
     "@prisma/client": "^6.19.0",
     "axios": "^1.13.2",
-    "swagger-ui-express": "^4.6.2",
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.63.2",
     "class-transformer": "^0.5.1",
@@ -43,7 +44,8 @@
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.2",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "swagger-ui-express": "^4.6.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

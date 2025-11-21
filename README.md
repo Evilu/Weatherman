@@ -41,10 +41,15 @@ The system meets all the homework requirements:
 - Active/inactive alert toggling
 
 ### 3. Alert Status ✅
+- **Automated alert processing every 5 minutes** using scheduled jobs
+- **Queue-based background processing** with BullMQ and Redis
 - Real-time evaluation of alert conditions
 - Visual status indicators (triggered/not triggered/error)
+- Alert history tracking with trigger and resolution timestamps
 - 3-day forecast analysis for each alert
-- Background processing for continuous monitoring
+- Manual trigger options via API endpoints
+- Webhook support for Tomorrow.io events
+- **See ALERT_SYSTEM_GUIDE.md for detailed documentation**
 
 ### 4. Delivery ✅
 - Complete Docker setup with multi-stage builds
