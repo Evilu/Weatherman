@@ -23,28 +23,28 @@ interface WeatherCardProps {
 
 export default function WeatherCard({ weather, location, isLoading }: WeatherCardProps) {
   const getWeatherIcon = (temp: number, precipitation: number) => {
-    if (precipitation > 0.5) return <CloudRain className="h-14 w-14 text-blue-400 weather-icon" />
-    if (temp > 20) return <Sun className="h-14 w-14 text-amber-400 weather-icon" />
-    if (temp < 5) return <CloudSnow className="h-14 w-14 text-cyan-400 weather-icon" />
-    return <Cloud className="h-14 w-14 text-slate-400 weather-icon" />
+    if (precipitation > 0.5) return <CloudRain className="h-10 w-10 text-blue-400" />
+    if (temp > 20) return <Sun className="h-10 w-10 text-amber-400" />
+    if (temp < 5) return <CloudSnow className="h-10 w-10 text-cyan-400" />
+    return <Cloud className="h-10 w-10 text-slate-400" />
   }
 
   if (isLoading) {
     return (
       <Card className="w-full weather-card border-slate-800 bg-slate-900/50">
-        <CardHeader className="pb-4">
+        <CardHeader className="pb-3">
           <CardTitle className="flex items-center justify-between">
-            <span className="h-7 w-40 bg-slate-800 weather-loading rounded-lg" />
-            <div className="h-14 w-14 bg-slate-800 weather-loading rounded-2xl" />
+            <span className="h-6 w-32 bg-slate-800 weather-loading rounded-lg" />
+            <div className="h-10 w-10 bg-slate-800 weather-loading rounded-2xl" />
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="h-16 w-32 bg-slate-800 weather-loading rounded-xl" />
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <CardContent className="space-y-4">
+          <div className="h-12 w-24 bg-slate-800 weather-loading rounded-xl" />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="space-y-2">
-                <div className="h-4 w-24 bg-slate-800 weather-loading rounded-md" />
-                <div className="h-7 w-20 bg-slate-800 weather-loading rounded-lg" />
+                <div className="h-3 w-20 bg-slate-800 weather-loading rounded-md" />
+                <div className="h-5 w-16 bg-slate-800 weather-loading rounded-lg" />
               </div>
             ))}
           </div>
@@ -106,48 +106,45 @@ export default function WeatherCard({ weather, location, isLoading }: WeatherCar
 
   return (
     <Card className="w-full weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl overflow-hidden">
-      <CardHeader className="pb-4 border-b border-slate-800/50">
+      <CardHeader className="pb-3 border-b border-slate-800/50">
         <CardTitle className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-slate-100">{location}</h2>
-            <p className="text-sm text-slate-400 font-medium mt-1">Current Conditions</p>
+            <h2 className="text-xl font-bold tracking-tight text-slate-100">{location}</h2>
+            <p className="text-xs text-slate-400 font-medium mt-0.5">Current Conditions</p>
           </div>
           {getWeatherIcon(weather.temperature, weather.precipitationIntensity)}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6 pt-6">
+      <CardContent className="space-y-4 pt-4">
         {/* Temperature Display */}
-        <div className="flex items-baseline gap-3 pb-6 border-b border-slate-800/50">
-          <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30">
-              <Thermometer className="h-8 w-8 text-orange-400" />
-            </div>
-            <div>
-              <p className="text-sm text-slate-400 font-medium mb-1">Temperature</p>
-              <span className="text-6xl font-bold tracking-tighter text-slate-100 weather-data">
-                {formatTemperature(weather.temperature)}
-              </span>
-            </div>
+        <div className="flex items-center gap-3 pb-3 border-b border-slate-800/50">
+          <div className="p-2 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30">
+            <Thermometer className="h-6 w-6 text-orange-400" />
+          </div>
+          <div>
+            <p className="text-xs text-slate-400 font-medium mb-0.5">Temperature</p>
+            <span className="text-4xl font-bold tracking-tighter text-slate-100 weather-data">
+              {formatTemperature(weather.temperature)}
+            </span>
           </div>
         </div>
 
         {/* Weather Metrics Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {weatherMetrics.map((metric, index) => {
             const Icon = metric.icon
             return (
               <div
                 key={metric.label}
-                className={`stagger-fade-in flex flex-col gap-3 p-4 rounded-xl ${metric.bgColor} backdrop-blur-sm border ${metric.borderColor} hover:bg-slate-800/40 transition-all duration-300 hover:scale-[1.02] overflow-hidden`}
-                style={{ animationDelay: `${index * 0.05}s` }}
+                className={`flex flex-col gap-2 p-3 rounded-lg ${metric.bgColor} backdrop-blur-sm border ${metric.borderColor} hover:bg-slate-800/40 transition-all duration-300 hover:scale-[1.02] overflow-hidden`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon className={`h-5 w-5 ${metric.color} flex-shrink-0`} />
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide truncate">
+                <div className="flex items-center gap-2">
+                  <Icon className={`h-4 w-4 ${metric.color} flex-shrink-0`} />
+                  <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide truncate">
                     {metric.label}
                   </p>
                 </div>
-                <p className="font-bold text-slate-100 text-xl weather-data truncate">
+                <p className="font-bold text-slate-100 text-base weather-data truncate">
                   {metric.value}
                 </p>
               </div>

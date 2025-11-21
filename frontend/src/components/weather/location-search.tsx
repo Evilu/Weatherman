@@ -53,17 +53,17 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
   }
 
   return (
-    <Card className="weather-card border-0 min-h-[400px]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-3 text-slate-800">
-          <MapPin className="h-6 w-6 text-sky-500" />
+    <Card className="weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl h-full">
+      <CardHeader className="pb-3 border-b border-slate-800/50">
+        <CardTitle className="flex items-center gap-2 text-slate-100 text-lg">
+          <MapPin className="h-5 w-5 text-blue-400" />
           Search Location
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 pt-4">
         {/* City Search */}
-        <div className="space-y-3 stagger-fade-in">
-          <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Search by City</label>
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Search by City</label>
           <div className="flex gap-2">
             <Input
               placeholder="San Francisco, New York..."
@@ -71,35 +71,35 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               onChange={(e) => setCity(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleCitySearch()}
               disabled={isLoading}
-              className="weather-input h-11 flex-1"
+              className="h-9 text-sm flex-1 text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500"
             />
             <Button
               onClick={handleCitySearch}
               disabled={!city.trim() || isLoading}
               size="icon"
-              className="weather-button h-11 w-11"
+              className="h-9 w-9 bg-blue-600 hover:bg-blue-500 border-0 shadow-lg"
             >
-              <Search className="h-5 w-5" />
+              <Search className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="relative stagger-fade-in" style={{ animationDelay: '0.05s' }}>
+        <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/20"></div>
+            <div className="w-full border-t border-slate-700/50"></div>
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white/30 px-4 py-1.5 rounded-full text-slate-600 font-bold backdrop-blur-sm border border-white/40">
+            <span className="bg-slate-800/50 px-3 py-1 rounded-full text-slate-400 font-semibold backdrop-blur-sm border border-slate-700/50">
               or
             </span>
           </div>
         </div>
 
         {/* Coordinates Search */}
-        <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.1s' }}>
-          <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Search by Coordinates</label>
-          <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Search by Coordinates</label>
+          <div className="grid grid-cols-2 gap-2">
             <Input
               placeholder="Latitude"
               type="number"
@@ -107,7 +107,7 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               value={coordinates.lat}
               onChange={(e) => setCoordinates(prev => ({ ...prev, lat: e.target.value }))}
               disabled={isLoading}
-              className="weather-input h-11 weather-data"
+              className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500"
             />
             <Input
               placeholder="Longitude"
@@ -116,16 +116,16 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               value={coordinates.lon}
               onChange={(e) => setCoordinates(prev => ({ ...prev, lon: e.target.value }))}
               disabled={isLoading}
-              className="weather-input h-11 weather-data"
+              className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500"
             />
           </div>
           <Button
             onClick={handleCoordinateSearch}
             disabled={!coordinates.lat || !coordinates.lon || isLoading}
             variant="outline"
-            className="w-full h-11 bg-white/40 backdrop-blur-sm border-white/50 hover:bg-white/60 font-semibold"
+            className="w-full h-9 text-sm bg-slate-800/30 backdrop-blur-sm border-slate-700 hover:bg-slate-700/50 hover:border-slate-600 font-semibold text-slate-200"
           >
-            <Search className="h-4 w-4 mr-2" />
+            <Search className="h-3.5 w-3.5 mr-2" />
             Search Coordinates
           </Button>
         </div>
@@ -134,11 +134,9 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
         <Button
           onClick={getCurrentLocation}
           disabled={isLoading}
-          variant="secondary"
-          className="w-full h-12 bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white/50 font-semibold stagger-fade-in"
-          style={{ animationDelay: '0.15s' }}
+          className="w-full h-10 bg-gradient-to-r from-emerald-600 to-blue-600 hover:from-emerald-500 hover:to-blue-500 text-white border-0 font-semibold shadow-lg"
         >
-          <Navigation className="h-5 w-5 mr-2" />
+          <Navigation className="h-4 w-4 mr-2" />
           Use My Location
         </Button>
       </CardContent>

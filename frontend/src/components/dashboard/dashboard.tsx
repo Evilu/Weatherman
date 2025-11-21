@@ -107,10 +107,10 @@ export default function Dashboard() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-x-hidden">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-x-hidden">
         {activeTab === 'weather' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div className="lg:col-span-1 w-full">
                 <LocationSearch
                   onLocationSelect={setSelectedLocation}
@@ -125,13 +125,15 @@ export default function Dashboard() {
                     isLoading={isLoadingWeather}
                   />
                 ) : (
-                  <div className="h-full flex items-center justify-center weather-card border-0 p-12 min-h-[400px]">
+                  <div className="h-full flex items-center justify-center weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl p-8">
                     <div className="text-center">
-                      <Search className="h-16 w-16 mx-auto mb-6 text-slate-600 weather-icon" />
-                      <h3 className="text-2xl font-bold mb-2 text-slate-200 tracking-tight">
+                      <div className="mb-4">
+                        <Search className="h-12 w-12 mx-auto text-slate-600" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 text-slate-200 tracking-tight">
                         Search for Weather
                       </h3>
-                      <p className="text-slate-400 font-medium">
+                      <p className="text-sm text-slate-400 font-medium">
                         Select a location to view current weather conditions
                       </p>
                     </div>
