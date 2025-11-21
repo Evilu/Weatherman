@@ -189,16 +189,16 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                     onClick={() => setFormData(prev => ({ ...prev, parameter: param.value }))}
                     className={`p-2.5 rounded-lg border transition-all duration-200 transform ${
                       isSelected 
-                        ? `${param.bgColor} ${param.borderColor} ring-1 ring-${param.color.replace('text-', '')}/50 scale-105` 
+                        ? `${param.bgColor} ${param.borderColor} ring-2 ring-${param.color.replace('text-', '')}/60 scale-105 shadow-lg shadow-${param.color.replace('text-', '')}/20` 
                         : 'bg-slate-800/30 border-slate-700/50 hover:border-slate-600 hover:bg-slate-800/50 hover:scale-105 active:scale-95'
                     }`}
                   >
                     <div className="flex flex-col items-center gap-1 text-center">
-                      <Icon className={`h-5 w-5 ${isSelected ? param.color : 'text-slate-400'}`} />
-                      <p className={`text-[10px] font-semibold leading-tight ${isSelected ? 'text-slate-100' : 'text-slate-400'}`}>
+                      <Icon className={`h-5 w-5 ${isSelected ? param.color : 'text-slate-400'} ${isSelected ? 'drop-shadow-glow' : ''}`} />
+                      <p className={`text-[10px] font-semibold leading-tight ${isSelected ? 'text-slate-50' : 'text-slate-400'}`}>
                         {param.label}
                       </p>
-                      <p className={`text-[9px] ${isSelected ? 'text-slate-300' : 'text-slate-500'}`}>
+                      <p className={`text-[9px] ${isSelected ? param.color : 'text-slate-500'}`}>
                         {param.unit}
                       </p>
                     </div>
@@ -224,18 +224,18 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                       onClick={() => setFormData(prev => ({ ...prev, operator: op.value }))}
                       className={`p-2 rounded-lg border transition-all duration-200 transform ${
                         isSelected 
-                          ? `${op.bgColor} ${op.borderColor} ring-1 ring-${op.color.replace('text-', '')}/50 scale-105` 
+                          ? `${op.bgColor} ${op.borderColor} ring-2 ring-${op.color.replace('text-', '')}/60 scale-105 shadow-lg shadow-${op.color.replace('text-', '')}/20` 
                           : 'bg-slate-800/30 border-slate-700/50 hover:border-slate-600 hover:bg-slate-800/50 hover:scale-105 active:scale-95'
                       }`}
                     >
                       <div className="flex flex-col items-center gap-0.5 text-center">
                         <div className="flex items-center gap-0.5">
-                          <Icon className={`h-3.5 w-3.5 ${isSelected ? op.color : 'text-slate-400'}`} />
-                          <span className={`text-lg font-bold ${isSelected ? op.color : 'text-slate-400'}`}>
+                          <Icon className={`h-3.5 w-3.5 ${isSelected ? op.color : 'text-slate-400'} ${isSelected ? 'drop-shadow-glow' : ''}`} />
+                          <span className={`text-lg font-bold ${isSelected ? op.color : 'text-slate-400'} ${isSelected ? 'drop-shadow-glow' : ''}`}>
                             {op.symbol}
                           </span>
                         </div>
-                        <p className={`text-[9px] font-semibold leading-tight ${isSelected ? 'text-slate-100' : 'text-slate-500'}`}>
+                        <p className={`text-[9px] font-semibold leading-tight ${isSelected ? 'text-slate-50' : 'text-slate-500'}`}>
                           {op.label.split(' ')[0]}
                         </p>
                       </div>
