@@ -107,17 +107,17 @@ export default function Dashboard() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 overflow-x-hidden">
         {activeTab === 'weather' && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-1">
+              <div className="lg:col-span-1 w-full">
                 <LocationSearch
                   onLocationSelect={setSelectedLocation}
                   isLoading={isLoadingWeather}
                 />
               </div>
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 w-full min-w-0">
                 {selectedLocation ? (
                   <WeatherCard
                     weather={weatherData!}

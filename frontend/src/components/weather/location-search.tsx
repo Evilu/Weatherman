@@ -87,10 +87,10 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
         {/* Divider */}
         <div className="relative stagger-fade-in" style={{ animationDelay: '0.05s' }}>
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/30"></div>
+            <div className="w-full border-t border-white/20"></div>
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white/20 px-3 py-1 rounded-full text-slate-600 font-semibold backdrop-blur-sm">
+            <span className="bg-white/30 px-4 py-1.5 rounded-full text-slate-600 font-bold backdrop-blur-sm border border-white/40">
               or
             </span>
           </div>

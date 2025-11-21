@@ -108,15 +108,15 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
   }, {} as Record<string, ForecastPoint[]>)
 
   return (
-    <div className="mt-4 p-5 bg-white/20 rounded-xl backdrop-blur-sm border border-white/30">
-      <div className="flex items-center justify-between mb-4">
+    <div className="mt-4 p-5 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/30 max-w-full overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-sky-500" />
+          <Calendar className="h-5 w-5 text-sky-500 flex-shrink-0" />
           <span className="text-sm font-bold text-slate-800">3-Day Forecast Analysis</span>
         </div>
-        <div className="flex items-center gap-2 text-sm px-3 py-1.5 bg-white/30 rounded-lg">
-          <ParameterIcon className="h-4 w-4 text-slate-600" />
-          <span className="text-slate-700 font-semibold weather-data">
+        <div className="flex items-center gap-2 text-xs sm:text-sm px-3 py-1.5 bg-white/30 rounded-full">
+          <ParameterIcon className="h-4 w-4 text-slate-600 flex-shrink-0" />
+          <span className="text-slate-700 font-semibold weather-data truncate">
             {parameter} {operatorSymbol} {threshold}{unit}
           </span>
         </div>
@@ -145,38 +145,38 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
           </div>
 
           {/* Day-by-day breakdown */}
-          <div className="space-y-3">
+          <div className="space-y-3 max-h-96 overflow-y-auto overflow-x-hidden pr-2 custom-scrollbar w-full">
             {Object.entries(forecastByDay).map(([date, points]: [string, ForecastPoint[]]) => {
               const dayTriggered = points.filter((p: ForecastPoint) => p.willTrigger)
 
               if (dayTriggered.length === 0) return null
 
               return (
-                <div key={date} className="bg-white/15 rounded-xl p-4 border border-white/20 backdrop-blur-sm">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-bold text-slate-800">{date}</span>
-                    <span className="text-xs font-semibold text-slate-600 px-2 py-1 bg-white/30 rounded-md">
+                <div key={date} className="bg-white/15 rounded-2xl p-4 border border-white/20 w-full overflow-hidden">
+                  <div className="flex items-center justify-between mb-3 gap-2">
+                    <span className="text-sm font-bold text-slate-800 truncate flex-1">{date}</span>
+                    <span className="text-xs font-semibold text-slate-600 px-3 py-1 bg-white/30 rounded-full flex-shrink-0">
                       {dayTriggered.length} trigger{dayTriggered.length > 1 ? 's' : ''}
                     </span>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full overflow-hidden">
                     {dayTriggered.slice(0, 5).map((point: ForecastPoint, idx: number) => (
-                      <div key={idx} className="flex items-center justify-between text-xs p-2 bg-white/10 rounded-lg">
-                        <span className="text-slate-600 font-semibold">
+                      <div key={idx} className="grid grid-cols-2 gap-4 items-center text-xs p-3 bg-white/10 rounded-2xl">
+                        <span className="text-slate-600 font-semibold text-left">
                           {new Date(point.time).toLocaleTimeString('en-US', {
                             hour: 'numeric',
                             minute: '2-digit',
                             hour12: true
                           })}
                         </span>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 justify-end">
                           <span className="font-mono font-bold text-slate-800 weather-data">
                             {point.value.toFixed(1)}{unit}
                           </span>
                           {point.value > threshold ? (
-                            <TrendingUp className="h-4 w-4 text-red-500" />
+                            <TrendingUp className="h-4 w-4 text-red-500 flex-shrink-0" />
                           ) : (
-                            <TrendingDown className="h-4 w-4 text-blue-500" />
+                            <TrendingDown className="h-4 w-4 text-blue-500 flex-shrink-0" />
                           )}
                         </div>
                       </div>
@@ -315,32 +315,32 @@ export default function AlertsList() {
                 <div
                   key={alert.id}
                   className={cn(
-                    'p-6 rounded-xl border-2 transition-all duration-300 stagger-fade-in',
+                    'p-6 rounded-2xl border-2 transition-all duration-300 stagger-fade-in overflow-hidden w-full',
                     getStatusColor(alert.status),
                     !alert.isActive && 'opacity-60',
-                    'cursor-pointer hover:scale-[1.02]'
+                    'cursor-pointer hover:scale-[1.01]'
                   )}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div
-                    className="flex items-start justify-between"
+                    className="flex items-start justify-between w-full overflow-hidden gap-4"
                     onClick={() => toggleExpanded(alert.id)}
                   >
-                    <div className="space-y-3 flex-1">
-                      <div className="flex items-center gap-2">
+                    <div className="space-y-3 flex-1 min-w-0">
+                      <div className="flex items-center gap-2 min-w-0">
                         {getStatusIcon(alert.status)}
-                        <h3 className="font-bold text-lg text-slate-800">{alert.name}</h3>
+                        <h3 className="font-bold text-lg text-slate-800 truncate flex-1">{alert.name}</h3>
                         {!alert.isActive && (
-                          <BellOff className="h-4 w-4 text-slate-500" />
+                          <BellOff className="h-4 w-4 text-slate-500 flex-shrink-0" />
                         )}
                         {isExpanded ? (
-                          <ChevronUp className="h-5 w-5 text-slate-500 ml-auto" />
+                          <ChevronUp className="h-5 w-5 text-slate-500 flex-shrink-0" />
                         ) : (
-                          <ChevronDown className="h-5 w-5 text-slate-500 ml-auto" />
+                          <ChevronDown className="h-5 w-5 text-slate-500 flex-shrink-0" />
                         )}
                       </div>
 
-                      <div className="flex items-center gap-4 text-sm font-semibold text-slate-600">
+                      <div className="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600">
                         <div className="flex items-center gap-1.5">
                           <MapPin className="h-4 w-4" />
                           {formatLocation(alert.location)}
@@ -354,7 +354,7 @@ export default function AlertsList() {
                       </div>
 
                       <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
-                        <span className="px-2 py-1 bg-white/30 rounded-md">
+                        <span className="px-3 py-1.5 bg-white/30 rounded-full">
                           {alert.status.replace('_', ' ')}
                         </span>
                         {alert.lastChecked && (

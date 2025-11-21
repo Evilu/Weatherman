@@ -170,7 +170,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
           <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.1s' }}>
             <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Weather Parameter</label>
             <select
-              className="weather-input flex h-11 w-full rounded-xl px-4 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+              className="weather-input flex h-11 w-full rounded-full px-5 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               value={formData.parameter}
               onChange={(e) => setFormData(prev => ({ ...prev, parameter: e.target.value }))}
               required
@@ -188,7 +188,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
           <div className="space-y-3 stagger-fade-in" style={{ animationDelay: '0.15s' }}>
             <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Condition</label>
             <select
-              className="weather-input flex h-11 w-full rounded-xl px-4 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+              className="weather-input flex h-11 w-full rounded-full px-5 text-sm font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
               value={formData.operator}
               onChange={(e) => setFormData(prev => ({ ...prev, operator: e.target.value }))}
               required

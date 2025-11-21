@@ -117,12 +117,12 @@ export default function WeatherCard({ weather, location, isLoading }: WeatherCar
             return (
               <div
                 key={metric.label}
-                className="stagger-fade-in flex items-start gap-3 p-4 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-105"
+                className="stagger-fade-in flex items-start gap-3 p-4 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-[1.02] overflow-hidden"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <Icon className={`h-5 w-5 ${metric.color} flex-shrink-0 mt-0.5`} />
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1 truncate">
                     {metric.label}
                   </p>
                   <p className="font-bold text-slate-800 text-lg weather-data truncate">
