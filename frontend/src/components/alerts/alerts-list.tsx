@@ -390,7 +390,6 @@ export default function AlertsList() {
                       <Button
                         variant="destructive"
                         size="icon"
-                        className="h-9 w-9 sm:h-10 sm:w-10"
                         onClick={() => deleteAlertMutation.mutate(alert.id)}
                         disabled={deleteAlertMutation.isPending}
                       >
