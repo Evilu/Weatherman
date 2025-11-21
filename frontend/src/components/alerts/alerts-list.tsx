@@ -152,16 +152,16 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
               if (dayTriggered.length === 0) return null
 
               return (
-                <div key={date} className="bg-white/15 rounded-2xl p-4 border border-white/20 w-full overflow-hidden">
+                <div key={date} className="bg-white/10 rounded-2xl p-4 border border-white/20 w-full overflow-hidden">
                   <div className="flex items-center justify-between mb-3 gap-2">
                     <span className="text-sm font-bold text-slate-800 truncate flex-1">{date}</span>
-                    <span className="text-xs font-semibold text-slate-600 px-3 py-1 bg-white/30 rounded-full flex-shrink-0">
+                    <span className="text-xs font-semibold text-slate-600 px-3 py-1 bg-white/20 rounded-full flex-shrink-0">
                       {dayTriggered.length} trigger{dayTriggered.length > 1 ? 's' : ''}
                     </span>
                   </div>
                   <div className="space-y-2 w-full overflow-hidden">
                     {dayTriggered.slice(0, 5).map((point: ForecastPoint, idx: number) => (
-                      <div key={idx} className="grid grid-cols-2 gap-4 items-center text-xs p-3 bg-white/10 rounded-2xl">
+                      <div key={idx} className="grid grid-cols-2 gap-4 items-center text-xs p-3 bg-white/5 rounded-xl">
                         <span className="text-slate-600 font-semibold text-left">
                           {new Date(point.time).toLocaleTimeString('en-US', {
                             hour: 'numeric',
@@ -182,8 +182,8 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
                       </div>
                     ))}
                     {dayTriggered.length > 5 && (
-                      <p className="text-xs text-slate-600 font-medium text-center pt-1">
-                        +{dayTriggered.length - 5} more...
+                      <p className="text-xs text-slate-600 font-medium text-center pt-2">
+                        + {dayTriggered.length - 5} more...
                       </p>
                     )}
                   </div>
@@ -318,7 +318,7 @@ export default function AlertsList() {
                     'p-6 rounded-2xl border-2 transition-all duration-300 stagger-fade-in overflow-hidden w-full',
                     getStatusColor(alert.status),
                     !alert.isActive && 'opacity-60',
-                    'cursor-pointer hover:scale-[1.01]'
+                    'cursor-pointer hover:bg-white/10' // Replaced hover:scale-[1.01] with a background color change
                   )}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
@@ -340,7 +340,7 @@ export default function AlertsList() {
                         )}
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-4 text-sm font-semibold text-slate-600">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-semibold text-slate-600">
                         <div className="flex items-center gap-1.5">
                           <MapPin className="h-4 w-4" />
                           {formatLocation(alert.location)}
@@ -354,25 +354,25 @@ export default function AlertsList() {
                       </div>
 
                       <div className="flex items-center gap-4 text-xs font-medium text-slate-500">
-                        <span className="px-3 py-1.5 bg-white/30 rounded-full">
+                        <span className="px-3 py-1.5 bg-white/20 rounded-full">
                           {alert.status.replace('_', ' ')}
                         </span>
                         {alert.lastChecked && (
-                          <span>
-                            {new Date(alert.lastChecked).toLocaleString()}
+                          <span className="truncate">
+                            Last checked: {new Date(alert.lastChecked).toLocaleString()}
                           </span>
                         )}
                       </div>
                     </div>
 
                     <div
-                      className="flex gap-2 ml-4"
+                      className="flex flex-col sm:flex-row gap-2"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Button
                         variant="outline"
-                        size="sm"
-                        className="bg-white/40 backdrop-blur-sm border-white/50 hover:bg-white/60"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10 bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/40"
                         onClick={() =>
                           toggleAlertMutation.mutate({
                             id: alert.id,
@@ -389,7 +389,8 @@ export default function AlertsList() {
                       </Button>
                       <Button
                         variant="destructive"
-                        size="sm"
+                        size="icon"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
                         onClick={() => deleteAlertMutation.mutate(alert.id)}
                         disabled={deleteAlertMutation.isPending}
                       >
