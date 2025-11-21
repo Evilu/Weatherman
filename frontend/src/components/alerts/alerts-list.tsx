@@ -79,10 +79,10 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
 
   if (isLoading) {
     return (
-      <div className="p-4 bg-white/10 rounded-lg mt-4">
+      <div className="p-4 bg-slate-800/30 rounded-xl mt-4 border border-slate-700/50 backdrop-blur-sm">
         <div className="flex items-center gap-2 mb-3">
-          <Calendar className="h-4 w-4 animate-pulse" />
-          <span className="text-sm font-medium">Loading 3-Day Forecast...</span>
+          <Calendar className="h-4 w-4 animate-pulse text-blue-400" />
+          <span className="text-sm font-semibold text-slate-300">Loading 3-Day Forecast...</span>
         </div>
       </div>
     )
@@ -90,8 +90,8 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
 
   if (!forecast || forecast.length === 0) {
     return (
-      <div className="p-4 bg-white/10 rounded-lg mt-4">
-        <p className="text-sm text-muted-foreground">No forecast data available</p>
+      <div className="p-4 bg-slate-800/30 rounded-xl mt-4 border border-slate-700/50 backdrop-blur-sm">
+        <p className="text-sm text-slate-400 font-medium">No forecast data available</p>
       </div>
     )
   }
@@ -108,82 +108,82 @@ function ForecastAnalysis({ alertId, parameter, threshold, operator }: {
   }, {} as Record<string, ForecastPoint[]>)
 
   return (
-    <div className="mt-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20">
-      <div className="flex items-center justify-between mb-4">
+    <div className="mt-4 p-4 bg-slate-800/30 rounded-xl backdrop-blur-sm border border-slate-700/50 max-w-full overflow-hidden">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4" />
-          <span className="text-sm font-semibold">3-Day Forecast Analysis</span>
+          <Calendar className="h-4 w-4 text-blue-400 flex-shrink-0" />
+          <span className="text-sm font-semibold text-slate-200">3-Day Forecast</span>
         </div>
-        <div className="flex items-center gap-2 text-sm">
-          <ParameterIcon className="h-3 w-3" />
-          <span className="text-muted-foreground">
-            Condition: {parameter} {operatorSymbol} {threshold}{unit}
+        <div className="flex items-center gap-2 text-xs px-3 py-1 bg-slate-700/50 rounded-full">
+          <ParameterIcon className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+          <span className="text-slate-300 font-semibold weather-data truncate">
+            {parameter} {operatorSymbol} {threshold}{unit}
           </span>
         </div>
       </div>
 
       {triggeredPoints.length === 0 ? (
-        <div className="flex items-center gap-2 p-3 bg-green-500/20 border border-green-500/40 rounded-lg">
-          <CheckCircle className="h-5 w-5 text-green-600" />
+        <div className="flex items-center gap-3 p-3 bg-emerald-950/30 border border-emerald-900/50 rounded-lg backdrop-blur-sm">
+          <CheckCircle className="h-5 w-5 text-emerald-400 flex-shrink-0" />
           <div>
-            <p className="font-medium text-green-700">Alert will NOT trigger</p>
-            <p className="text-xs text-green-600">No forecast periods meet the alert condition</p>
+            <p className="font-semibold text-emerald-300 text-sm">Will NOT trigger</p>
+            <p className="text-xs text-emerald-400/80 font-medium">No forecast periods meet the condition</p>
           </div>
         </div>
       ) : (
         <div className="space-y-3">
-          <div className="flex items-center gap-2 p-3 bg-amber-500/20 border border-amber-500/40 rounded-lg">
-            <AlertTriangle className="h-5 w-5 text-amber-600" />
+          <div className="flex items-center gap-3 p-3 bg-amber-950/30 border border-amber-900/50 rounded-lg backdrop-blur-sm">
+            <AlertTriangle className="h-5 w-5 text-amber-400 flex-shrink-0" />
             <div>
-              <p className="font-medium text-amber-700">
-                Alert will trigger {triggeredPoints.length} time{triggeredPoints.length > 1 ? 's' : ''}
+              <p className="font-semibold text-amber-300 text-sm">
+                Will trigger {triggeredPoints.length} time{triggeredPoints.length > 1 ? 's' : ''}
               </p>
-              <p className="text-xs text-amber-600">
+              <p className="text-xs text-amber-400/80 font-medium">
                 in the next 3 days
               </p>
             </div>
           </div>
 
           {/* Day-by-day breakdown */}
-          <div className="space-y-2">
+          <div className="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar w-full">
             {Object.entries(forecastByDay).map(([date, points]: [string, ForecastPoint[]]) => {
               const dayTriggered = points.filter((p: ForecastPoint) => p.willTrigger)
 
               if (dayTriggered.length === 0) return null
 
               return (
-                <div key={date} className="bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium">{date}</span>
-                    <span className="text-xs text-muted-foreground">
+                <div key={date} className="bg-slate-800/40 rounded-lg p-3 border border-slate-700/30 w-full overflow-hidden">
+                  <div className="flex items-center justify-between mb-2 gap-2">
+                    <span className="text-xs font-semibold text-slate-300 truncate flex-1">{date}</span>
+                    <span className="text-[10px] font-semibold text-slate-400 px-2 py-0.5 bg-slate-700/50 rounded-full flex-shrink-0">
                       {dayTriggered.length} trigger{dayTriggered.length > 1 ? 's' : ''}
                     </span>
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1.5 w-full overflow-hidden">
                     {dayTriggered.slice(0, 5).map((point: ForecastPoint, idx: number) => (
-                      <div key={idx} className="flex items-center justify-between text-xs">
-                        <span className="text-muted-foreground">
+                      <div key={idx} className="grid grid-cols-2 gap-4 items-center text-xs p-2 bg-slate-700/30 rounded-lg">
+                        <span className="text-slate-400 font-medium text-left">
                           {new Date(point.time).toLocaleTimeString('en-US', {
                             hour: 'numeric',
                             minute: '2-digit',
                             hour12: true
                           })}
                         </span>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono font-medium">
+                        <div className="flex items-center gap-2 justify-end">
+                          <span className="font-mono font-bold text-slate-200 weather-data text-xs">
                             {point.value.toFixed(1)}{unit}
                           </span>
                           {point.value > threshold ? (
-                            <TrendingUp className="h-3 w-3 text-red-500" />
+                            <TrendingUp className="h-3.5 w-3.5 text-red-400 flex-shrink-0" />
                           ) : (
-                            <TrendingDown className="h-3 w-3 text-blue-500" />
+                            <TrendingDown className="h-3.5 w-3.5 text-blue-400 flex-shrink-0" />
                           )}
                         </div>
                       </div>
                     ))}
                     {dayTriggered.length > 5 && (
-                      <p className="text-xs text-muted-foreground text-center pt-1">
-                        +{dayTriggered.length - 5} more...
+                      <p className="text-[10px] text-slate-500 font-medium text-center pt-1">
+                        + {dayTriggered.length - 5} more...
                       </p>
                     )}
                   </div>
@@ -232,13 +232,13 @@ export default function AlertsList() {
   const getStatusIcon = (status: Alert['status']) => {
     switch (status) {
       case 'TRIGGERED':
-        return <AlertTriangle className="h-4 w-4 text-red-500" />
+        return <AlertTriangle className="h-4 w-4 text-red-400" />
       case 'NOT_TRIGGERED':
-        return <CheckCircle className="h-4 w-4 text-green-500" />
+        return <CheckCircle className="h-4 w-4 text-emerald-400" />
       case 'ERROR':
-        return <XCircle className="h-4 w-4 text-gray-500" />
+        return <XCircle className="h-4 w-4 text-slate-500" />
       default:
-        return <XCircle className="h-4 w-4 text-gray-500" />
+        return <XCircle className="h-4 w-4 text-slate-500" />
     }
   }
 
@@ -249,9 +249,9 @@ export default function AlertsList() {
       case 'NOT_TRIGGERED':
         return 'alert-normal'
       case 'ERROR':
-        return 'bg-gray-500/20 border-gray-400/40 backdrop-blur-md'
+        return 'bg-slate-800/30 border-slate-700/50 backdrop-blur-md'
       default:
-        return 'bg-gray-500/20 border-gray-400/40 backdrop-blur-md'
+        return 'bg-slate-800/30 border-slate-700/50 backdrop-blur-md'
     }
   }
 
@@ -269,17 +269,17 @@ export default function AlertsList() {
 
   if (isLoading) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Alerts</CardTitle>
+      <Card className="weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl">
+        <CardHeader className="border-b border-slate-800/50 pb-4">
+          <CardTitle className="text-slate-100 text-xl">Your Alerts</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="pt-4">
+          <div className="space-y-3">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="p-4 border rounded-lg weather-loading bg-gray-200 backdrop-blur-md border-gray-300">
-                <div className="h-4 bg-gray-400 rounded w-3/4 mb-2" />
-                <div className="h-3 bg-gray-400 rounded w-1/2 mb-2" />
-                <div className="h-3 bg-gray-400 rounded w-1/4" />
+              <div key={i} className="p-4 rounded-xl weather-loading bg-slate-800/30 backdrop-blur-sm border border-slate-700/50">
+                <div className="h-4 bg-slate-700 rounded-lg w-3/4 mb-2" />
+                <div className="h-3 bg-slate-700 rounded-lg w-1/2 mb-2" />
+                <div className="h-3 bg-slate-700 rounded-lg w-1/4" />
               </div>
             ))}
           </div>
@@ -289,23 +289,25 @@ export default function AlertsList() {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Bell className="h-5 w-5" />
+    <Card className="weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl">
+      <CardHeader className="border-b border-slate-800/50 pb-4">
+        <CardTitle className="flex items-center gap-2 text-slate-100 text-xl">
+          <Bell className="h-5 w-5 text-blue-400" />
           Your Alerts ({alerts.length})
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-4">
         {alerts.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            <Bell className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p className="text-lg font-medium">No alerts yet</p>
-            <p>Create your first weather alert to get started</p>
+          <div className="text-center py-12">
+            <div className="mb-4">
+              <Bell className="h-12 w-12 mx-auto text-slate-600" />
+            </div>
+            <p className="text-lg font-bold text-slate-200 mb-2">No alerts yet</p>
+            <p className="text-sm text-slate-400 font-medium">Create your first weather alert to get started</p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {alerts.map((alert) => {
+          <div className="space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto pr-2 custom-scrollbar">
+            {alerts.map((alert, index) => {
               const ParameterIcon = PARAMETER_ICONS[alert.parameter] || Thermometer
               const unit = PARAMETER_UNITS[alert.parameter] || ''
               const operatorSymbol = OPERATOR_SYMBOLS[alert.operator] || alert.operator
@@ -315,58 +317,68 @@ export default function AlertsList() {
                 <div
                   key={alert.id}
                   className={cn(
-                    'p-6 rounded-2xl border-2 transition-all duration-300',
+                    'p-4 rounded-xl border transition-all duration-200 overflow-hidden w-full',
                     getStatusColor(alert.status),
                     !alert.isActive && 'opacity-60',
-                    'cursor-pointer hover:shadow-lg'
+                    'cursor-pointer hover:bg-slate-800/40'
                   )}
                 >
                   <div
-                    className="flex items-start justify-between"
+                    className="flex items-start justify-between w-full overflow-hidden gap-3"
                     onClick={() => toggleExpanded(alert.id)}
                   >
-                    <div className="space-y-2 flex-1">
-                      <div className="flex items-center gap-2">
+                    <div className="space-y-2 flex-1 min-w-0">
+                      <div className="flex items-center gap-2 min-w-0">
                         {getStatusIcon(alert.status)}
-                        <h3 className="font-semibold">{alert.name}</h3>
+                        <h3 className="font-bold text-base text-slate-100 truncate flex-1">{alert.name}</h3>
                         {!alert.isActive && (
-                          <BellOff className="h-4 w-4 text-muted-foreground" />
+                          <BellOff className="h-4 w-4 text-slate-500 flex-shrink-0" />
                         )}
                         {isExpanded ? (
-                          <ChevronUp className="h-4 w-4 text-muted-foreground ml-auto" />
+                          <ChevronUp className="h-4 w-4 text-slate-400 flex-shrink-0" />
                         ) : (
-                          <ChevronDown className="h-4 w-4 text-muted-foreground ml-auto" />
+                          <ChevronDown className="h-4 w-4 text-slate-400 flex-shrink-0" />
                         )}
                       </div>
 
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3" />
-                          {formatLocation(alert.location)}
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm font-medium text-slate-400">
+                        <div className="flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5" />
+                          <span className="text-xs">{formatLocation(alert.location)}</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                          <ParameterIcon className="h-3 w-3" />
-                          {alert.parameter} {operatorSymbol} {alert.threshold}{unit}
+                        <div className="flex items-center gap-1.5">
+                          <ParameterIcon className="h-3.5 w-3.5" />
+                          <span className="weather-data text-xs">
+                            {alert.parameter} {operatorSymbol} {alert.threshold}{unit}
+                          </span>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>Status: {alert.status.replace('_', ' ')}</span>
+                      <div className="flex items-center gap-3 text-[10px] font-medium text-slate-500">
+                        <span className="px-2 py-0.5 bg-slate-700/50 rounded-full">
+                          {alert.status.replace('_', ' ')}
+                        </span>
                         {alert.lastChecked && (
-                          <span>
-                            Last checked: {new Date(alert.lastChecked).toLocaleString()}
+                          <span className="truncate">
+                            {new Date(alert.lastChecked).toLocaleString()}
                           </span>
                         )}
                       </div>
                     </div>
 
                     <div
-                      className="flex gap-2 ml-4"
+                      className="flex gap-2"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Button
                         variant="outline"
-                        size="sm"
+                        size="icon"
+                        className={cn(
+                          "h-8 w-8 border transition-all duration-200",
+                          alert.isActive 
+                            ? "bg-blue-950/30 border-blue-900/50 hover:bg-blue-900/40 text-blue-400 hover:text-blue-300" 
+                            : "bg-slate-800/30 border-slate-700/50 hover:bg-slate-700/50 text-slate-400 hover:text-slate-300"
+                        )}
                         onClick={() =>
                           toggleAlertMutation.mutate({
                             id: alert.id,
@@ -382,8 +394,9 @@ export default function AlertsList() {
                         )}
                       </Button>
                       <Button
-                        variant="destructive"
-                        size="sm"
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 bg-red-950/30 border-red-900/50 hover:bg-red-900/40 text-red-400 hover:text-red-300 transition-all duration-200"
                         onClick={() => deleteAlertMutation.mutate(alert.id)}
                         disabled={deleteAlertMutation.isPending}
                       >

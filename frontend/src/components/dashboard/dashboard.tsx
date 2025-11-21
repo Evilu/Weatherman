@@ -9,7 +9,7 @@ import CreateAlertForm from '@/components/alerts/create-alert-form'
 import AlertsList from '@/components/alerts/alerts-list'
 import { Location, weatherApi, WeatherData } from '@/lib/api'
 import { useAuth } from '@/components/providers/auth-provider'
-import { LogOut, Cloud, Bell, Search, Plus } from 'lucide-react'
+import { LogOut, Cloud, Bell, Search, Plus, CloudDrizzle } from 'lucide-react'
 
 type TabType = 'weather' | 'alerts' | 'create-alert'
 
@@ -43,24 +43,34 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       {/* Header */}
-      <header className="weather-header shadow-lg">
+      <header className="weather-header sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <Cloud className="h-8 w-8 text-blue-600 weather-icon" />
+              <div className="relative">
+                <CloudDrizzle className="h-8 w-8 text-blue-400" />
+                <div className="absolute -bottom-0.5 -right-0.5 h-2 w-2 bg-emerald-400 rounded-full animate-pulse" />
+              </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-800">Weatherman</h1>
-                <p className="text-sm text-gray-600">Weather Alert System</p>
+                <h1 className="text-xl font-bold text-slate-100 tracking-tight">Weatherman</h1>
+                <p className="text-xs text-slate-400 font-medium">Real-Time Alert System</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">
-                Welcome, {user?.name}
-              </span>
-              <Button variant="outline" size="sm" onClick={logout}>
+              <div className="hidden sm:block">
+                <span className="text-sm font-medium text-slate-300">
+                  {user?.name}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logout}
+                className="bg-slate-800/50 backdrop-blur-sm border-slate-700 hover:bg-slate-700/50 hover:border-slate-600 text-slate-200 font-medium transition-all"
+              >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
               </Button>
@@ -70,7 +80,7 @@ export default function Dashboard() {
       </header>
 
       {/* Navigation Tabs */}
-      <nav className="weather-nav">
+      <nav className="weather-nav sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {tabs.map((tab) => {
@@ -81,8 +91,8 @@ export default function Dashboard() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`weather-tab py-4 px-2 font-semibold text-sm transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'active text-blue-600'
-                      : 'text-gray-600 hover:text-gray-800'
+                      ? 'active text-blue-400'
+                      : 'text-slate-400 hover:text-slate-300'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -97,17 +107,17 @@ export default function Dashboard() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 overflow-x-hidden">
         {activeTab === 'weather' && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-1">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-1 w-full">
                 <LocationSearch
                   onLocationSelect={setSelectedLocation}
                   isLoading={isLoadingWeather}
                 />
               </div>
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 w-full min-w-0">
                 {selectedLocation ? (
                   <WeatherCard
                     weather={weatherData!}
@@ -115,11 +125,17 @@ export default function Dashboard() {
                     isLoading={isLoadingWeather}
                   />
                 ) : (
-                  <div className="h-full flex items-center justify-center weather-card p-12">
-                    <div className="text-center text-gray-600">
-                      <Search className="h-16 w-16 mx-auto mb-6 opacity-40 weather-icon" />
-                      <h3 className="text-xl font-semibold mb-2 text-gray-700">Search for Weather</h3>
-                      <p className="text-gray-600">Select a location to view current weather conditions</p>
+                  <div className="h-full flex items-center justify-center weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl p-8">
+                    <div className="text-center">
+                      <div className="mb-4">
+                        <Search className="h-12 w-12 mx-auto text-slate-600" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 text-slate-200 tracking-tight">
+                        Search for Weather
+                      </h3>
+                      <p className="text-sm text-slate-400 font-medium">
+                        Select a location to view current weather conditions
+                      </p>
                     </div>
                   </div>
                 )}
@@ -127,8 +143,8 @@ export default function Dashboard() {
             </div>
 
             {weatherError && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-800">
+              <div className="bg-red-950/30 backdrop-blur-sm border border-red-900/50 rounded-xl p-4">
+                <p className="text-red-300 font-semibold">
                   Error loading weather data: {weatherError.message}
                 </p>
               </div>
