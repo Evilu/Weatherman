@@ -4,6 +4,7 @@ import { CommonModule } from './common/common.module';
 import { WeatherModule } from './weather/weather.module';
 import { AlertModule } from './alert/alert.module';
 import { AuthModule } from './auth/auth.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
     WeatherModule,
     AlertModule,
     AuthModule,
+    HealthModule,
   ],
 })
 export class AppModule {}

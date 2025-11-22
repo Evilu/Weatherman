@@ -1,5 +1,8 @@
 node_modules
-npm-debug.log
+.next
+out
+build
+dist
 .env
 .env.local
 .env.development.local
@@ -9,12 +12,10 @@ npm-debug.log
 .gitignore
 README.md
 .DS_Store
-.nyc_output
-coverage
 .vscode
 .idea
 *.log
-build
-dist
+coverage
+.nyc_output
 .env.docker
 

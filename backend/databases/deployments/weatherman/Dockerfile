@@ -3,7 +3,7 @@ FROM node:18-alpine AS builder
 WORKDIR /workspace
 
 # Copy the Prisma schema from the backend service into the builder
-COPY ./services/backend/prisma/schema.prisma ./schema.prisma
+COPY ./application/prisma/schema.prisma ./schema.prisma
 
 # Create output dir and generate SQL migration from empty DB to the Prisma datamodel
 RUN mkdir -p ./pgdata \

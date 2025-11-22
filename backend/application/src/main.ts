@@ -6,15 +6,17 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    // Enable CORS for frontend development
+    // Enable CORS for frontend development and Docker
     app.enableCors({
         origin: [
             'http://localhost:3000',
             'http://localhost:3001',
             'http://127.0.0.1:3000',
             'http://127.0.0.1:3001',
+            'http://frontend:3000', // Docker internal hostname
+            process.env.FRONTEND_URL, // Environment variable for frontend URL
             /^http:\/\/192\.168\.\d+\.\d+:(3000|3001)$/ // Allow network access
-        ],
+        ].filter(Boolean), // Remove undefined values
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
         credentials: true,
