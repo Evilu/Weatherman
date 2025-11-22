@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback, useRef } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useAuth } from './auth-provider'
 
 interface NotificationLocation {
@@ -22,13 +23,17 @@ export interface AlertNotification {
 
 export function useNotifications() {
   const { user, token } = useAuth()
+  const queryClient = useQueryClient()
   const [notifications, setNotifications] = useState<AlertNotification[]>([])
   const [isConnected, setIsConnected] = useState(false)
   const previousAuthRef = useRef<{ user: typeof user, token: string | null }>({ user: null, token: null })
 
   const addNotification = useCallback((notification: AlertNotification) => {
     setNotifications(prev => [notification, ...prev.slice(0, 9)]) // Keep latest 10 notifications
-  }, [])
+
+    // Invalidate alerts query to refresh the alert list with updated status
+    queryClient.invalidateQueries({ queryKey: ['alerts'] })
+  }, [queryClient])
 
   const clearNotifications = useCallback(() => {
     setNotifications([])

@@ -232,11 +232,11 @@ export default function AlertsList() {
   const getStatusIcon = (status: Alert['status']) => {
     switch (status) {
       case 'TRIGGERED':
-        return <AlertTriangle className="h-4 w-4 text-red-400" />
+        return <AlertTriangle className="h-4 w-4 text-red-400 drop-shadow-glow animate-pulse" />
       case 'NOT_TRIGGERED':
-        return <CheckCircle className="h-4 w-4 text-emerald-400" />
+        return <CheckCircle className="h-4 w-4 text-emerald-400 drop-shadow-glow" />
       case 'ERROR':
-        return <XCircle className="h-4 w-4 text-slate-500" />
+        return <XCircle className="h-4 w-4 text-orange-400" />
       default:
         return <XCircle className="h-4 w-4 text-slate-500" />
     }
@@ -249,7 +249,7 @@ export default function AlertsList() {
       case 'NOT_TRIGGERED':
         return 'alert-normal'
       case 'ERROR':
-        return 'bg-slate-800/30 border-slate-700/50 backdrop-blur-md'
+        return 'bg-slate-800/40 border-slate-600/50 backdrop-blur-md border-dashed'
       default:
         return 'bg-slate-800/30 border-slate-700/50 backdrop-blur-md'
     }
@@ -307,7 +307,7 @@ export default function AlertsList() {
           </div>
         ) : (
           <div className="space-y-3 max-h-[calc(100vh-16rem)] overflow-y-auto pr-2 custom-scrollbar">
-            {alerts.map((alert, index) => {
+            {alerts.map((alert) => {
               const ParameterIcon = PARAMETER_ICONS[alert.parameter] || Thermometer
               const unit = PARAMETER_UNITS[alert.parameter] || ''
               const operatorSymbol = OPERATOR_SYMBOLS[alert.operator] || alert.operator
@@ -355,7 +355,14 @@ export default function AlertsList() {
                       </div>
 
                       <div className="flex items-center gap-3 text-[10px] font-medium text-slate-500">
-                        <span className="px-2 py-0.5 bg-slate-700/50 rounded-full">
+                        <span className={cn(
+                          'px-2 py-0.5 rounded-full font-semibold',
+                          alert.status === 'TRIGGERED'
+                            ? 'bg-red-500/20 border border-red-400/50 text-red-300 animate-pulse'
+                            : alert.status === 'NOT_TRIGGERED'
+                            ? 'bg-emerald-500/20 border border-emerald-400/50 text-emerald-300'
+                            : 'bg-slate-700/50 border border-slate-600/50 text-slate-400'
+                        )}>
                           {alert.status.replace('_', ' ')}
                         </span>
                         {alert.lastChecked && (
