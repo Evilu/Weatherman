@@ -97,7 +97,7 @@ export default function WeatherCard({ weather, location, isLoading }: WeatherCar
     {
       icon: Gauge,
       label: 'Updated',
-      value: new Date(weather.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      value: new Date(weather.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       color: 'text-emerald-400',
       bgColor: 'bg-emerald-950/30',
       borderColor: 'border-emerald-900/50'
