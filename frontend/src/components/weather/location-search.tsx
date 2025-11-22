@@ -62,7 +62,7 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
       </CardHeader>
       <CardContent className="space-y-4 pt-4 px-[15%] sm:px-[20%] lg:px-[30%]">
         {/* City Search */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Search by City</label>
           <div className="flex gap-2">
             <Input
@@ -97,9 +97,9 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
         </div>
 
         {/* Coordinates Search */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Search by Coordinates</label>
-          <div className="flex gap-4">
+          <div className="flex gap-6">
             <Input
               placeholder="Latitude"
               type="number"

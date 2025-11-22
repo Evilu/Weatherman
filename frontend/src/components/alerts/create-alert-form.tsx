@@ -109,7 +109,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
 
   return (
     <Card className="weather-card border-slate-800 bg-slate-900/50 backdrop-blur-xl">
-      <CardHeader className="border-b border-slate-800/50 pb-4">
+      <CardHeader className="border-b border-slate-800/50 pb-5 px-[5%] sm:px-[8%] lg:px-[10%]">
         <CardTitle className="flex items-center gap-2 text-slate-100 text-xl">
           <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-emerald-500/20 border border-blue-500/30">
             <Plus className="h-5 w-5 text-blue-400" />
@@ -120,11 +120,11 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
           Set up custom weather conditions to monitor for your location
         </p>
       </CardHeader>
-      <CardContent className="pt-4">
-        <form onSubmit={handleSubmit} className="space-y-5">
+      <CardContent className="pt-6 px-[5%] sm:px-[8%] lg:px-[10%]">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Alert Name & Location - Combined Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Alert Name</label>
               <Input
                 placeholder="High Temp Alert"
@@ -134,7 +134,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                 className="h-9 text-sm text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500"
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wide flex items-center gap-1.5">
                 <MapPin className="h-3.5 w-3.5 text-blue-400" />
                 Location
@@ -158,7 +158,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                     ...prev,
                     location: { ...prev.location, lat: e.target.value, city: '' }
                   }))}
-                  className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500"
+                  className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <Input
                   placeholder="Lon"
@@ -169,14 +169,14 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                     ...prev,
                     location: { ...prev.location, lon: e.target.value, city: '' }
                   }))}
-                  className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500"
+                  className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Weather Parameter - Compact Cards */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Weather Parameter</label>
             <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
               {ALERT_PARAMETERS.map((param) => {
@@ -211,7 +211,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
           {/* Condition & Threshold - Combined Row */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Operator - Compact Cards */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Condition</label>
               <div className="grid grid-cols-5 gap-2">
                 {OPERATORS.map((op) => {
@@ -246,7 +246,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
             </div>
 
             {/* Threshold */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">
                 Threshold {selectedParameter && (
                   <span className="text-blue-400">({selectedParameter.unit})</span>
@@ -259,7 +259,7 @@ export default function CreateAlertForm({ onSuccess }: CreateAlertFormProps) {
                 value={formData.threshold}
                 onChange={(e) => setFormData(prev => ({ ...prev, threshold: e.target.value }))}
                 required
-                className="h-9 weather-data text-base text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500"
+                className="h-9 weather-data text-base text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
           </div>
