@@ -38,7 +38,7 @@ export default function WeatherCard({ weather, location, isLoading }: WeatherCar
             <div className="h-10 w-10 bg-slate-800 weather-loading rounded-2xl" />
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 px-[15%] sm:px-[20%] lg:px-[30%]">
           <div className="h-12 w-24 bg-slate-800 weather-loading rounded-xl" />
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[...Array(6)].map((_, i) => (
@@ -115,7 +115,7 @@ export default function WeatherCard({ weather, location, isLoading }: WeatherCar
           {getWeatherIcon(weather.temperature, weather.precipitationIntensity)}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 pt-4">
+      <CardContent className="space-y-4 pt-4 px-[15%] sm:px-[20%] lg:px-[30%]">
         {/* Temperature Display */}
         <div className="flex items-center gap-3 pb-3 border-b border-slate-800/50">
           <div className="p-2 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30">
