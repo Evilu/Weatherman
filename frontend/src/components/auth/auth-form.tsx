@@ -93,8 +93,8 @@ export default function AuthForm() {
                             }
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="pt-6 px-30">
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                    <CardContent className="!p-0 !pt-6 !px-8 sm:!px-12 !pb-6" style={{ paddingLeft: '2rem', paddingRight: '2rem' }}>
+                        <form onSubmit={handleSubmit} className="space-y-4 px-4 sm:px-6">
                             {!isLogin && (
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Name</label>
@@ -163,7 +163,7 @@ export default function AuthForm() {
                             )}
                         </form>
 
-                        <div className="mt-6 space-y-3">
+                        <div className="mt-6 space-y-3 px-4 sm:px-6">
                             {/* Quick Demo Login */}
                             <Button
                                 variant="outline"
