@@ -4,6 +4,7 @@ import { prisma } from '../common/prisma.client';
 import { CreateAlertDto } from '../common/dto/create-alert.dto';
 import { UpdateAlertDto } from '../common/dto/update-alert.dto';
 import { WeatherService } from '../weather/weather.service';
+import { NotificationService } from '../common/notification.service';
 
 import { WeatherData, AlertEvaluation, ForecastAnalysis } from '../common/interfaces/weather.interface';
 import {alert} from "@prisma/client";
@@ -23,6 +24,7 @@ export class AlertService {
   constructor(
     private readonly prisma: PrismaService, // keep service to control lifecycle
     private readonly weatherService: WeatherService,
+    private readonly notificationService: NotificationService,
   ) {
     // reference prismaService to avoid unused-field warnings while still using the shared client
     void this.prisma;
@@ -148,11 +150,11 @@ export class AlertService {
 
     // Update alert status if changed
     if (triggered && alert.status !== AlertStatus.TRIGGERED) {
-      await this.updateAlertStatus(alertId, AlertStatus.TRIGGERED);
+      await this.updateAlertStatus(alertId, AlertStatus.TRIGGERED, weatherData);
       await this.createAlertHistory(alertId, 'TRIGGERED', weatherData);
       this.logger.log(`Alert ${alertId} TRIGGERED: ${alert.parameter} ${alert.operator} ${alert.threshold}`);
     } else if (!triggered && alert.status === AlertStatus.TRIGGERED) {
-      await this.updateAlertStatus(alertId, AlertStatus.NOT_TRIGGERED);
+      await this.updateAlertStatus(alertId, AlertStatus.NOT_TRIGGERED, weatherData);
       await this.resolveAlertHistory(alertId);
       this.logger.log(`Alert ${alertId} resolved`);
     }
@@ -220,16 +222,58 @@ export class AlertService {
   }
 
   /**
-   * Update alert status
+   * Update alert status and send notifications
    */
-  private async updateAlertStatus(alertId: string, status: AlertStatus): Promise<void> {
-    await prisma.alert.update({
+  private async updateAlertStatus(alertId: string, status: AlertStatus, weatherData?: WeatherData): Promise<void> {
+    // Update the alert in database
+    const updatedAlert = await prisma.alert.update({
       where: { id: alertId },
       data: {
         status,
         lastChecked: new Date(),
       },
+      include: {
+        user: true,
+      },
     });
+
+    // Send real-time notification to frontend
+    if (status === AlertStatus.TRIGGERED || status === AlertStatus.ERROR) {
+      try {
+        await this.notificationService.sendAlertNotification({
+          type: status === AlertStatus.TRIGGERED ? 'alert_triggered' : 'alert_error',
+          alertId: updatedAlert.id,
+          userId: updatedAlert.userId,
+          alertName: updatedAlert.name,
+          location: updatedAlert.location,
+          parameter: updatedAlert.parameter,
+          value: weatherData?.[updatedAlert.parameter] ?? 0,
+          threshold: updatedAlert.threshold,
+          timestamp: new Date(),
+        });
+      } catch (error) {
+        this.logger.error(`Failed to send notification for alert ${alertId}: ${error.message}`);
+      }
+    }
+
+    // Send resolved notification when status changes from TRIGGERED to NOT_TRIGGERED
+    if (status === AlertStatus.NOT_TRIGGERED && updatedAlert.status === AlertStatus.TRIGGERED) {
+      try {
+        await this.notificationService.sendAlertNotification({
+          type: 'alert_resolved',
+          alertId: updatedAlert.id,
+          userId: updatedAlert.userId,
+          alertName: updatedAlert.name,
+          location: updatedAlert.location,
+          parameter: updatedAlert.parameter,
+          value: weatherData?.[updatedAlert.parameter] ?? 0,
+          threshold: updatedAlert.threshold,
+          timestamp: new Date(),
+        });
+      } catch (error) {
+        this.logger.error(`Failed to send resolved notification for alert ${alertId}: ${error.message}`);
+      }
+    }
   }
 
   /**
@@ -317,17 +361,17 @@ export class AlertService {
           const triggered = this.evaluateCondition(value, alert.operator, alert.threshold);
 
           if (triggered && alert.status !== AlertStatus.TRIGGERED) {
-            await this.updateAlertStatus(alert.id, AlertStatus.TRIGGERED);
+            await this.updateAlertStatus(alert.id, AlertStatus.TRIGGERED, weatherData);
             await this.createAlertHistory(alert.id, 'TRIGGERED', weatherData);
             this.logger.log(`Alert ${alert.id} TRIGGERED`);
           } else if (!triggered && alert.status === AlertStatus.TRIGGERED) {
-            await this.updateAlertStatus(alert.id, AlertStatus.NOT_TRIGGERED);
+            await this.updateAlertStatus(alert.id, AlertStatus.NOT_TRIGGERED, weatherData);
             await this.resolveAlertHistory(alert.id);
             this.logger.log(`Alert ${alert.id} resolved`);
           }
         } catch (error) {
           this.logger.error(`Error processing alert ${alert.id}: ${error.message}`);
-          await this.updateAlertStatus(alert.id, AlertStatus.ERROR);
+          await this.updateAlertStatus(alert.id, AlertStatus.ERROR, weatherData);
         }
       }
     }

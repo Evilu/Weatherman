@@ -60,9 +60,9 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
           Search Location
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 pt-4">
+      <CardContent className="space-y-4 pt-4 px-[15%] sm:px-[20%] lg:px-[30%]">
         {/* City Search */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Search by City</label>
           <div className="flex gap-2">
             <Input
@@ -97,9 +97,9 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
         </div>
 
         {/* Coordinates Search */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <label className="text-xs font-bold text-slate-300 uppercase tracking-wide">Search by Coordinates</label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="flex gap-6">
             <Input
               placeholder="Latitude"
               type="number"
@@ -107,7 +107,7 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               value={coordinates.lat}
               onChange={(e) => setCoordinates(prev => ({ ...prev, lat: e.target.value }))}
               disabled={isLoading}
-              className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500"
+              className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500 !px-3 flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
             <Input
               placeholder="Longitude"
@@ -116,7 +116,7 @@ export default function LocationSearch({ onLocationSelect, isLoading }: Location
               value={coordinates.lon}
               onChange={(e) => setCoordinates(prev => ({ ...prev, lon: e.target.value }))}
               disabled={isLoading}
-              className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500"
+              className="h-9 text-sm weather-data text-slate-100 bg-slate-800/30 border-slate-700 focus:border-blue-500 placeholder:text-slate-500 !px-3 flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
           </div>
           <Button

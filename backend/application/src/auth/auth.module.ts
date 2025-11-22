@@ -15,13 +15,13 @@ import { CommonModule } from '../common/common.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET') || 'changeme',
+        secret: config.get<string>('JWT_SECRET') || 'weatherman-secret',
         signOptions: { expiresIn: '1h' },
       }),
     }),
   ],
   providers: [AuthService, UsersService, JwtStrategy],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

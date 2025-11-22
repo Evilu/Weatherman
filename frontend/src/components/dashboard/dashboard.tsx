@@ -7,9 +7,11 @@ import WeatherCard from '@/components/weather/weather-card'
 import LocationSearch from '@/components/weather/location-search'
 import CreateAlertForm from '@/components/alerts/create-alert-form'
 import AlertsList from '@/components/alerts/alerts-list'
+import { NotificationsPanel } from '@/components/notifications/notifications-panel'
+import { NotificationsWrapper } from '@/components/providers/notifications-wrapper'
 import { Location, weatherApi, WeatherData } from '@/lib/api'
 import { useAuth } from '@/components/providers/auth-provider'
-import { LogOut, Cloud, Bell, Search, Plus, CloudDrizzle } from 'lucide-react'
+import { LogOut, Bell, Search, Plus, CloudDrizzle } from 'lucide-react'
 
 type TabType = 'weather' | 'alerts' | 'create-alert'
 
@@ -43,7 +45,8 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <NotificationsWrapper>
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       {/* Header */}
       <header className="weather-header sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,6 +63,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-center gap-4">
+              <NotificationsPanel />
               <div className="hidden sm:block">
                 <span className="text-sm font-medium text-slate-300">
                   {user?.name}
@@ -162,6 +166,7 @@ export default function Dashboard() {
           </div>
         )}
       </main>
-    </div>
+      </div>
+    </NotificationsWrapper>
   )
 }

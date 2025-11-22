@@ -12,7 +12,7 @@ export class AlertSchedulerService {
    * Process all active alerts every 5 minutes
    * This ensures alerts are checked regularly for triggering conditions
    */
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async scheduleAlertProcessing() {
     this.logger.log('Scheduled alert processing triggered');
     await this.alertQueueService.queueProcessAllAlerts();

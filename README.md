@@ -89,9 +89,31 @@ The system meets all the homework requirements:
 
 ## 🚀 Quick Start
 
+### Option 1: Docker (Recommended)
+
+The easiest way to run Weatherman is with Docker:
+
+```bash
+# 1. Clone the repository
+git clone <repository-url>
+cd Weatherman
+
+# 2. Quick setup (builds and starts everything)
+./setup.sh
+
+# 3. Access the applications
+# Frontend: http://localhost:3000
+# Backend: http://localhost:3535/api
+# API Docs: http://localhost:3535/api/docs
+```
+
+For detailed Docker instructions, see [DOCKER_GUIDE.md](./DOCKER_GUIDE.md).
+
+### Option 2: Local Development
+
 ### Prerequisites
 - Node.js 18+ 
-- Docker & Docker Compose
+- Docker & Docker Compose (for database services)
 - Git
 
 ### 1. Clone & Setup
@@ -102,9 +124,9 @@ cd Weatherman
 
 ### 2. Start Database Services
 ```bash
-docker-compose up -d
+docker-compose up -d db redis
 ```
-This starts PostgreSQL and Redis services. The database will automatically initialize with the Prisma schema and create an admin user.
+This starts PostgreSQL and Redis services. The database will automatically initialize with the Prisma schema.
 
 ### 3. Start Backend
 ```bash
